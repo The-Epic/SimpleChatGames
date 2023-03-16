@@ -24,15 +24,13 @@ public class LeaderboardCommand extends SimpleCommandHandler {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        for (Map.Entry<String, Integer> entry : PlayerDataUtils.getTopPlayerData(0, 9).entrySet()) {
-            sender.sendMessage("  -" + entry.getKey() + "  " + entry.getValue());
+        int page = args[0] == null ? 1 : Integer.valueOf(args[0]);
+        sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-message").replace("%number%", String.valueOf(page)));
+        int count = 10 * page;
+        for (Map.Entry<String, Integer> entry : PlayerDataUtils.getTopPlayerData(count - 10 , count).entrySet()) {
+            sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-line").replace("%player_name%", entry.getKey()).replace("%wins%", String.valueOf(entry.getValue())));
         }
         return true;
-    }
-
-    @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        return null;
     }
 
 }

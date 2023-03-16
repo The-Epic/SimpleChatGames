@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class SimpleChatGames extends JavaPlugin {
@@ -33,6 +34,7 @@ public final class SimpleChatGames extends JavaPlugin {
         // Plugin startup logic
         ConfigUpdater.runConfigUpdater(this);
         reload();
+        ConfigUpdater.update(this, "messages.yml", new File(getDataFolder(), "messages.yml"));
         getCommand("simplechatgames").setExecutor(new CommandHandler(this));
         plugin = this;
         gameManager = new GameManager(this);

@@ -1,1 +1,4 @@
 no-permission: "<red>You do not have permission for this"
+leaderboard:
+  info-message: "<green>Page %number% of the leaderboard"
+  info-line: " <dark_gray>-</dark_gray><yellow>%player_name%  %wins%"
