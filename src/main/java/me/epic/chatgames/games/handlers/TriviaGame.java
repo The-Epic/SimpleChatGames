@@ -61,7 +61,7 @@ public class TriviaGame extends ChatGame {
     protected void end(boolean timeout) {
         super.end(timeout);
         if (timeout) {
-            Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%answer%", "<yellow>" + Utils.formatListAnswers(answers))));
+            Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%answers%", "<yellow>" + Utils.formatListAnswers(answers))));
         }
         answers = new ArrayList<>();
     }
