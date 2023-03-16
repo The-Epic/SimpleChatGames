@@ -35,6 +35,11 @@ public abstract class ChatGame<T extends GameData> {
         timer.cancel();
     }
 
+    public void end() {
+        manager.clearActiveGame();
+        timer.cancel();
+    }
+
     public abstract void handleChat(AsyncPlayerChatEvent event);
 
 }
