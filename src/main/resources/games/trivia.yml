@@ -1,0 +1,241 @@
+duration: 30 # seconds
+enabled: true
+messages:
+  start: "<green>Solve <white>%question%</white><green> to win a prize!"
+  end:
+    won: "<green><bold>!</bold> <white>%player_name%</white> has won the round in <yellow>%time%<yellow> <white>seconds</white>!"
+    timed-out: "<green><bold>!</bold> No one won that round, the answer was %answers%"
+
+questions:
+  What is the name of the block used to craft torches?:
+    answers:
+      - stick
+      - coal
+  What is the name of the hostile mob that explodes?:
+    answers:
+      - creeper
+  What is the name of the game mode where players have infinite resources?:
+    answers:
+      - creative mode
+  What is the name of the tool used to break dirt and stone blocks?:
+    answers:
+      - pickaxe
+  What is the name of the block that players spawn on when they first join a world?:
+    answers:
+      - grass block
+  What is the name of the red, fiery dimension that can be accessed through a Nether portal?:
+    answers:
+      - Nether
+  What is the name of the flying creature that drops leather when killed?:
+    answers:
+      - bat
+  What is the name of the neutral mob that can be tamed with bones?:
+    answers:
+      - wolf
+  What is the name of the material used to create armor?:
+    answers:
+      - iron
+      - diamond
+      - gold
+  What is the name of the food that restores the most hunger points?:
+    answers:
+      - golden carrot
+      - cooked porkchop
+      - steak
+  What is the name of the rare ore that can be found underground?:
+    answers:
+      - diamond
+  What is the name of the block that is used to create a bed?:
+    answers:
+      - wool
+  What is the name of the block that grows wheat?:
+    answers:
+      - farmland
+  What is the name of the block that can be used to make a furnace?:
+    answers:
+      - cobblestone
+  What is the name of the block that can be used to craft arrows?:
+    answers:
+      - flint
+      - stick
+      - feather
+  What is the name of the material used to create tools and weapons?:
+    answers:
+      - iron
+      - diamond
+      - gold
+  What is the name of the block that can be used to create a ladder?:
+    answers:
+      - sticks
+  What is the name of the passive mob that can be milked?:
+    answers:
+      - cow
+  What is the name of the item used to craft a fishing rod?:
+    answers:
+      - string
+  What is the name of the item used to craft a bow?:
+    answers:
+      - sticks
+      - string
+  What is the name of the block that can be used to create a door?:
+    answers:
+      - wood planks
+  What is the name of the block that can be used to create a boat?:
+    answers:
+      - wood planks
+  What is the name of the block that can be used to create a chest?:
+    answers:
+      - chest
+  What is the name of the block that can be used to create a crafting table?:
+    answers:
+      - wood planks
+  What is the name of the block that can be used to create a fence?:
+    answers:
+      - wood planks
+  What is the name of the block that can be used to create a fence gate?:
+    answers:
+      - wood planks
+  What is the name of the block that can be used to create a pressure plate?:
+    answers:
+      - wood planks
+      - stone
+  What is the name of the item used to craft a map?:
+    answers:
+      - paper
+      - compass
+  What is the name of the block that can be used to create a jukebox?:
+    answers:
+      - wood planks
+      - diamond
+  What is the name of the block that can be used to create a note block?:
+    answers:
+      - wood planks
+      - redstone
+  What is the name of the block that can be used to create a piston?:
+    answers:
+      - wood planks
+      - cobblestone
+      - iron ingot
+      - redstone
+  What is the name of the block that can be used to create a sticky piston?:
+    answers:
+      - wood planks
+      - cobblestone
+      - iron ingot
+      - redstone
+      - slime ball
+  What is the name of the block that can be used to create a redstone lamp?:
+    answers:
+      - glowstone
+      - redstone
+  What is the name of the block that can be used to create a lever?:
+    answers:
+      - cobblestone
+      - stick
+  What is the name of the block that can be used to create a redstone torch?:
+    answers:
+      - redstone
+      - stick
+  What is the name of the block that can be used to create a button?:
+    answers:
+      - stone
+      - wood planks
+  What is the name of the block that can be used to create a comparator?:
+    answers:
+      - redstone torch
+      - nether quartz
+      - stone
+  What is the name of the block that can be used to create a dispenser?:
+    answers:
+      - cobblestone
+      - redstone
+      - bow
+    What is the name of the block that can be used to create a dropper?:
+      answers:
+        - cobblestone
+        - redstone
+    What is the name of the block that can be used to create a hopper?:
+      answers:
+        - iron ingot
+        - chest
+    What is the name of the block that can be used to create a beacon?:
+      answers:
+        - obsidian
+        - glass
+        - nether star
+    What is the name of the block that can be used to create a brewing stand?:
+      answers:
+        - blaze rod
+        - cobblestone
+    What is the name of the block that can be used to create a daylight sensor?:
+      answers:
+        - glass
+        - nether quartz
+        - wood slab
+    What is the name of the block that can be used to create a comparator?:
+      answers:
+        - redstone torch
+        - nether quartz
+        - stone
+    What is the name of the block that can be used to create a daylight detector?:
+      answers:
+        - daylight sensor
+    What is the name of the block that can be used to create a redstone repeater?:
+      answers:
+        - redstone torch
+        - stone
+        - redstone dust
+    What is the name of the block that can be used to create a furnace?:
+      answers:
+        - cobblestone
+        - iron ingot
+    What is the name of the block that can be used to create a smoker?:
+      answers:
+        - wood logs
+        - furnace
+    What is the name of the block that can be used to create a blast furnace?:
+      answers:
+        - iron ingot
+        - furnace
+        - smooth stone
+    What is the name of the block that can be used to create a crafting table?:
+      answers:
+        - wood planks
+    What is the name of the block that can be used to create a chest?:
+      answers:
+        - wood planks
+    What is the name of the block that can be used to create a trapdoor?:
+      answers:
+        - wood planks
+        - iron ingot
+    What is the name of the block that can be used to create a fence gate?:
+      answers:
+        - wood planks
+        - stick
+    What is the name of the block that can be used to create a ladder?:
+      answers:
+        - stick
+    What is the name of the block that can be used to create a sign?:
+      answers:
+        - wood planks
+    What is the name of the block that can be used to create a bed?:
+      answers:
+        - wool
+        - wood planks
+    What is the name of the block that can be used to create a painting?:
+      answers:
+        - wool
+        - stick
+    What is the name of the block that can be used to create a carpet?:
+      answers:
+        - wool
+        - wood planks
+    What is the name of the block that can be used to create a fence?:
+      answers:
+        - wood planks
+        - stick
+    What is the name of the block that can be used to create a pressure plate?:
+      answers:
+        - wood planks
+        - stone
+        - iron ingot

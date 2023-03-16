@@ -15,10 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Utils {
 
@@ -73,5 +70,13 @@ public class Utils {
             }
         });
 
+    }
+
+    public static String formatListAnswers(List<String> answers) {
+        StringJoiner joiner = new StringJoiner(", ");
+        for (String string : answers) {
+            joiner.add(string);
+        }
+        return joiner.toString();
     }
 }

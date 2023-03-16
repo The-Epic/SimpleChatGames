@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.Utils;
 import me.epic.chatgames.games.data.GameData;
+import me.epic.chatgames.games.data.TriviaGameData;
 import me.epic.chatgames.games.data.UnscrambleGameData;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,7 @@ public class GameManager implements Listener {
     public void loadGames() {
         games.clear();
         Utils.loadResourceFile(plugin, "unscramble.yml").ifPresent(config -> registerGame(new UnscrambleGameData(config)));
+        Utils.loadResourceFile(plugin, "trivia.yml").ifPresent(config -> registerGame(new TriviaGameData(config)));
     }
 
     public boolean isGameRunning() {
