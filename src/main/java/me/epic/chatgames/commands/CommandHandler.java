@@ -14,6 +14,7 @@ public class CommandHandler extends ArgumentCommandHandler {
         LeaderboardCommand leaderboardCommand = new LeaderboardCommand(plugin);
         addArgumentExecutor("leaderboard", leaderboardCommand);
         addArgumentExecutor("lb", leaderboardCommand);
+        addArgumentExecutor("reload", new ReloadCommand(plugin));
 
     }
 }
