@@ -1,20 +1,15 @@
 package me.epic.chatgames;
 
-import com.google.common.reflect.TypeToken;
 import lombok.SneakyThrows;
 import me.epic.spigotlib.config.ConfigUpdater;
-import org.apache.commons.io.FileUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class Utils {
 

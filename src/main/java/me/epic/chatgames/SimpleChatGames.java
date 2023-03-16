@@ -1,7 +1,5 @@
 package me.epic.chatgames;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import me.epic.chatgames.commands.CommandHandler;
 import me.epic.chatgames.games.GameManager;
@@ -18,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class SimpleChatGames extends JavaPlugin {

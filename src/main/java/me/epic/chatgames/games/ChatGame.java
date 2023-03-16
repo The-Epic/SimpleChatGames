@@ -1,8 +1,6 @@
 package me.epic.chatgames.games;
 
 import me.epic.chatgames.PlayerDataUtils;
-import me.epic.chatgames.SimpleChatGames;
-import me.epic.chatgames.Utils;
 import me.epic.chatgames.games.data.GameData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
