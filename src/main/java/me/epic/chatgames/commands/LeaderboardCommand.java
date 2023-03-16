@@ -1,6 +1,6 @@
 package me.epic.chatgames.commands;
 
-import me.epic.chatgames.PlayerDataUtils;
+import me.epic.chatgames.utils.PlayerDataUtils;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.spigotlib.commands.SimpleCommandHandler;
 import org.bukkit.command.Command;
@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 

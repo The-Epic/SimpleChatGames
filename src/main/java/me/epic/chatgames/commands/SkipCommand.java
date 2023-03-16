@@ -1,5 +1,6 @@
 package me.epic.chatgames.commands;
 
+import lombok.SneakyThrows;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.spigotlib.commands.SimpleCommandHandler;
 import org.bukkit.command.Command;
@@ -18,12 +19,12 @@ public class SkipCommand extends SimpleCommandHandler {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         sender.sendMessage(plugin.getMessageConfig().getString("skip-game"));
-        if (plugin.getGameManager().isGameRunning()) {
+        try {
             plugin.getGameManager().getActiveGame().end();
-            plugin.getGameManager().startRandomGame();
-        } else {
-            plugin.getGameManager().startRandomGame();
+        } catch (NullPointerException ex) {
+
         }
+        plugin.getGameManager().startRandomGame();
         return true;
     }
 }

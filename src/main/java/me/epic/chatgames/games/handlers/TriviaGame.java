@@ -1,11 +1,9 @@
 package me.epic.chatgames.games.handlers;
 
-import me.epic.chatgames.Utils;
+import me.epic.chatgames.utils.Utils;
 import me.epic.chatgames.games.ChatGame;
 import me.epic.chatgames.games.GameManager;
-import me.epic.chatgames.games.data.GameData;
 import me.epic.chatgames.games.data.TriviaGameData;
-import me.epic.chatgames.games.data.UnscrambleGameData;
 import me.epic.spigotlib.Timings;
 import me.epic.spigotlib.formatting.Formatting;
 import org.bukkit.Bukkit;
@@ -15,8 +13,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TriviaGame extends ChatGame {

@@ -2,7 +2,8 @@ package me.epic.chatgames.games;
 
 import lombok.Getter;
 import me.epic.chatgames.SimpleChatGames;
-import me.epic.chatgames.Utils;
+import me.epic.chatgames.games.data.CopyGameData;
+import me.epic.chatgames.utils.Utils;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.chatgames.games.data.TriviaGameData;
 import me.epic.chatgames.games.data.UnscrambleGameData;
@@ -30,6 +31,7 @@ public class GameManager implements Listener {
         games.clear();
         Utils.loadResourceFile(plugin, "unscramble.yml").ifPresent(config -> registerGame(new UnscrambleGameData(config)));
         Utils.loadResourceFile(plugin, "trivia.yml").ifPresent(config -> registerGame(new TriviaGameData(config)));
+        Utils.loadResourceFile(plugin, "copy.yml").ifPresent(config -> registerGame(new CopyGameData(config)));
     }
 
     public boolean isGameRunning() {
@@ -38,10 +40,13 @@ public class GameManager implements Listener {
 
 
     public void startRandomGame() {
+        System.out.println(games);
         ChatGame<? extends GameData> game = games.get(ThreadLocalRandom.current().nextInt(games.size())).createGame(this);
-        activeGame = game;
+        if (!isGameRunning()) {
+            activeGame = game;
 
-        activeGame.start();
+            activeGame.start();
+        }
     }
 
     public void clearActiveGame() {

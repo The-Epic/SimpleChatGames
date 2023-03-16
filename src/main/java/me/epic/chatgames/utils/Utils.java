@@ -1,6 +1,7 @@
-package me.epic.chatgames;
+package me.epic.chatgames.utils;
 
 import lombok.SneakyThrows;
+import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;

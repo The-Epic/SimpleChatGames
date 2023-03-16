@@ -1,7 +1,8 @@
-package me.epic.chatgames;
+package me.epic.chatgames.utils;
 
 import com.google.gson.*;
 import lombok.SneakyThrows;
+import me.epic.chatgames.SimpleChatGames;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
