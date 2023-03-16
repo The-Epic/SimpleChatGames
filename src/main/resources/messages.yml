@@ -5,3 +5,4 @@ leaderboard:
 skip-game: "<green>Game skipped!"
 item-given: "<green>You have received x%item_count% %item_name%"
 money-given: "<green>You have received $%amount%"
+command-usage: /cg <reward|leaderboard|skip|reload>
