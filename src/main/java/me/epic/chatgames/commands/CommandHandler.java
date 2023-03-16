@@ -18,6 +18,7 @@ public class CommandHandler extends ArgumentCommandHandler {
         addArgumentExecutor("reload", new ReloadCommand(plugin));
         addArgumentExecutor("skip", skipCommand);
         addArgumentExecutor("next", skipCommand);
+        addArgumentExecutor("reward", new RewardCommand(plugin));
 
     }
 }

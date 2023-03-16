@@ -2,6 +2,8 @@ name: SimpleChatGames
 version: '${version}'
 main: me.epic.chatgames.SimpleChatGames
 api-version: 1.17
+softdepend:
+  - Vault
 libraries:
   - 'net.kyori:adventure-text-minimessage:4.11.0'
   - 'net.kyori:adventure-text-serializer-legacy:4.11.0'

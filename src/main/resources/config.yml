@@ -14,3 +14,9 @@ games:
   interval: 5 # Minutes
   players: 2
   not-enough-players-message: "<green>Not enough players online"
+
+
+rewards:
+  item: disabled
+  economy: disabled
+  command: disabled

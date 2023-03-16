@@ -3,3 +3,5 @@ leaderboard:
   info-message: "<green>Page %number% of the leaderboard"
   info-line: " <dark_gray>-</dark_gray><yellow>%player_name%  %wins%"
 skip-game: "<green>Game skipped!"
+item-given: "<green>You have received x%item_count% %item_name%"
+money-given: "<green>You have received $%amount%"

@@ -8,11 +8,13 @@ import me.epic.spigotlib.formatting.Formatting;
 import me.epic.spigotlib.items.ItemBuilder;
 import me.epic.spigotlib.language.MessageConfig;
 import me.epic.spigotlib.utils.FileUtils;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -26,6 +28,8 @@ public final class SimpleChatGames extends JavaPlugin {
     @Getter private ItemStack rewardItem;
     @Getter private boolean debugMode;
     @Getter private MessageConfig messageConfig;
+    @Getter private boolean vaultPresent = false;
+    @Getter private Economy economy;
     private BukkitTask mainGameTask;
 
 
@@ -41,10 +45,16 @@ public final class SimpleChatGames extends JavaPlugin {
         gameManager.loadGames();
         rewardItem = new ItemBuilder(Material.SUNFLOWER).name("<#1efb41>C<#22fb4a>h<#26fb52>a<#2afc5b>t <#2efc64>G<#32fc6c>a<#36fc75>m<#3afc7e>e <#3efc86>T<#42fd8f>o<#46fd98>k<#4afda0>e<#4efda9>n").enchantment(Enchantment.MENDING, 1).flags(ItemFlag.HIDE_ENCHANTS).build();
 
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            System.out.println("test");
+            vaultPresent = true;
+            setupEconomy();
+        }
     }
 
     public void reload() {
         if (mainGameTask != null) mainGameTask.cancel();
+        reloadConfig();
         debugMode = getConfig().getBoolean("debug", false);
         int delay = 20 * 60 * getConfig().getInt("games.interval");
         int interval = delay;
@@ -64,6 +74,18 @@ public final class SimpleChatGames extends JavaPlugin {
             }
         }, delay, interval);
         FileUtils.loadResourceFile(this, "messages.yml").ifPresent(file -> this.messageConfig = new MessageConfig(file));
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 
 }

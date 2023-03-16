@@ -138,12 +138,7 @@ public class UnscrambleGame extends ChatGame {
         long timeTookLong = Timings.endTimings("unscramble-chatgame");
         StringBuilder finalTimeTook = new StringBuilder();
         finalTimeTook.append(String.format("%.2f", ((double) timeTookLong / 1000.0)));
-        SchedulerUtils.oneTickDelay(manager.getPlugin(), () -> {
-            Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.won").replace("%time%", finalTimeTook.toString()).replace("%player_name%", player.getName())));
-            if (!manager.getPlugin().isDebugMode()) player.getInventory().addItem(manager.getPlugin().getRewardItem());
-            player.sendMessage(Formatting.translate(gameConfig.getString("messages.winners-message")).replace("%itemname%", manager.getPlugin().getRewardItem().getItemMeta().getDisplayName()));
-            answer = new String();
-        });
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook.toString());
 
     }
 
