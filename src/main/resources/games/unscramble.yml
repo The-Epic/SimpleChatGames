@@ -5,7 +5,6 @@ messages:
   end:
     won: "<green><bold>!</bold> <white>%player_name%</white> has won the round in <yellow>%time%<yellow> <white>seconds</white>!"
     timed-out: "<green><bold>!</bold> No one won that round, the answer was %word%"
-  winners-message: "<green>Congrats you won! You have gained 1 %itemname%"
 words:
   - minecraft
   - digging

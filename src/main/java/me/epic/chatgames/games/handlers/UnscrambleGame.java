@@ -48,7 +48,7 @@ public class UnscrambleGame extends ChatGame {
         StringBuilder finalTimeTook = new StringBuilder();
         finalTimeTook.append(String.format("%.2f", ((double) timeTookLong / 1000.0)));
         Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook.toString());
-
+        answer = new String();
     }
 
     @Override
