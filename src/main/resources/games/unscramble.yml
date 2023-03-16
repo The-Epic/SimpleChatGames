@@ -1,0 +1,209 @@
+duration: 20 # seconds
+enabled: true
+messages:
+  start: "<green>Unscramble <white>%word%</white> to win a prize!"
+  end:
+    won: "<green><bold>!</bold> <white>%player_name%</white> has won the round in <yellow>%time%<yellow> <white>seconds</white>!"
+    timed-out: "<green><bold>!</bold> No one won that round, the answer was %word%"
+  winners-message: "<green>Congrats you won! You have gained 1 %itemname%"
+words:
+  - minecraft
+  - digging
+  - diamond
+  - emerald
+  - gold
+  - iron
+  - grass
+  - creeper
+  - zombie
+  - skeleton
+  - steve
+  - enderman
+  - nether
+  - overworld
+  - redstone
+  - tnt
+  - pickaxe
+  - sword
+  - bow
+  - arrow
+  - enchantment
+  - potion
+  - beacon
+  - villager
+  - farming
+  - brewing
+  - crafting
+  - anvil
+  - furnace
+  - coal
+  - lava
+  - water
+  - tree
+  - wood
+  - planks
+  - slime
+  - magma cube
+  - ghast
+  - blaze
+  - elytra
+  - shulker
+  - end portal
+  - dragon egg
+  - obsidian
+  - bedrock
+  - minecart
+  - rail
+  - redstone dust
+  - lever
+  - button
+  - pressure plate
+  - trapdoor
+  - fence
+  - stairs
+  - chest
+  - ender chest
+  - beacon
+  - totem of undying
+  - trident
+  - turtle
+  - rabbit
+  - chicken
+  - cow
+  - pig
+  - sheep
+  - horse
+  - donkey
+  - llama
+  - polar bear
+  - dolphin
+  - salmon
+  - cod
+  - pufferfish
+  - fishing rod
+  - enchanted golden apple
+  - spider
+  - cave spider
+  - silverfish
+  - ender dragon
+  - wither
+  - pillager
+  - ravager
+  - illusioner
+  - phantom
+  - cat
+  - wolf
+  - ocelot
+  - parrot
+  - panda
+  - bee
+  - adventure
+  - armor
+  - axe
+  - biome
+  - bow
+  - brewing
+  - campfire
+  - cave
+  - chicken
+  - crafting
+  - creeper
+  - desert
+  - diamond
+  - dragon
+  - dungeon
+  - emerald
+  - enchanting
+  - ender
+  - experience
+  - farm
+  - fishing
+  - food
+  - forest
+  - furnace
+  - ghost
+  - gold
+  - grass
+  - guardians
+  - horse
+  - iron
+  - jungle
+  - ladder
+  - lantern
+  - lava
+  - minecart
+  - mob
+  - monster
+  - mushroom
+  - nether
+  - obsidian
+  - ocean
+  - ores
+  - panda
+  - pig
+  - piston
+  - player
+  - poison
+  - portal
+  - potion
+  - rabbit
+  - redstone
+  - sand
+  - sheep
+  - shovel
+  - skeleton
+  - slime
+  - snow
+  - spawn
+  - spider
+  - steak
+  - sword
+  - thunder
+  - TNT
+  - tools
+  - tree
+  - treasure
+  - village
+  - water
+  - weapons
+  - wolf
+  - zombie
+  - shield
+  - hopper
+  - beacon
+  - elytra
+  - totem
+  - trident
+  - scaffolding
+  - honeycomb
+  - honey
+  - berry
+  - lantern
+  - boat
+  - cartography
+  - crossbow
+  - diamond armor
+  - diamond tools
+  - end portal
+  - ghast
+  - blaze
+  - ender dragon
+  - wither
+  - beacon
+  - bookshelf
+  - cauldron
+  - chest
+  - dispenser
+  - dropper
+  - enchantment table
+  - glass
+  - glowstone
+  - jukebox
+  - lever
+  - piston
+  - redstone torch
+  - sticky piston
+  - tripwire
+  - water bucket
+  - lava bucket
+  - wheat

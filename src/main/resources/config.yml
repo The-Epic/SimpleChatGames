@@ -1,0 +1,16 @@
+update-checker:
+  interval: 2 # hours
+  enabled: true
+
+# Debug: true enables the following
+# Games starting 20 seconds after startup
+# Time between games becomes 1 minute
+# Send op's the answer to all questions
+# Removes minimum players needed
+# Disables rewards
+debug: false
+
+games:
+  interval: 5 # Minutes
+  players: 2
+  not-enough-players-message: "<green>Not enough players online"

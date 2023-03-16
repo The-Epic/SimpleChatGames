@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.0"
+}
+
+group = 'me.epic'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url "https://repo.epicebic.xyz/public"
+    }
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    implementation 'me.epic:epicspigotlib:1.0.7-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+}
+
+
+shadowJar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+    relocate 'me.epic.epicspigotlib', 'me.epic.chatgames.spigotlib'
+    destinationDirectory = file("C:\\Users\\immrt\\Desktop\\Minecraft-Servers\\1.19.3\\plugins")
+    minimize()
+}
+
+build {
+    dependsOn shadowJar
+}
+
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
+shadowJar.shouldRunAfter build
+build.shouldRunAfter subprojects.build
