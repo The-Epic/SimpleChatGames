@@ -1,26 +1,32 @@
 package me.epic.chatgames;
 
+import com.google.common.reflect.TypeToken;
 import lombok.SneakyThrows;
 import me.epic.spigotlib.config.ConfigUpdater;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class Utils {
 
     @SneakyThrows
     public static Optional<YamlConfiguration> loadResourceFile(Plugin source, String resourceName) {
-        File resourceFile = new File(source.getDataFolder().getCanonicalPath() + "/games", resourceName);
+        System.out.println(source.getDataFolder()+ File.separator + "games");
+        File resourceFile = new File(source.getDataFolder() + File.separator + "games", resourceName);
 
         // Copy file if needed
-        if (!resourceFile.exists() && source.getResource(resourceName) != null) {
-            source.saveResource(resourceName, false);
-            ConfigUpdater.update(source, resourceName, resourceFile);
+        if (!resourceFile.exists() && source.getResource("games/" + resourceName) != null) {
+            source.saveResource("games/" + resourceName, false);
+            ConfigUpdater.update(source, "games/" + resourceName, resourceFile);
         }
 
         // File still doesn't exist, return empty
