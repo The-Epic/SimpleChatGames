@@ -30,6 +30,10 @@ public class GameManager implements Listener {
         Utils.loadResourceFile(plugin, "unscramble.yml").ifPresent(config -> registerGame(new UnscrambleGameData(config)));
     }
 
+    public boolean isGameRunning() {
+        return activeGame != null;
+    }
+
 
     public void startRandomGame() {
         ChatGame<? extends GameData> game = games.get(ThreadLocalRandom.current().nextInt(games.size())).createGame(this);

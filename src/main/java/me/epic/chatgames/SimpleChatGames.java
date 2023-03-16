@@ -56,10 +56,11 @@ public final class SimpleChatGames extends JavaPlugin {
             getLogger().warning("Debug mode enabled");
         }
         mainGameTask = Bukkit.getScheduler().runTaskTimer(this, () -> {
-            if (debugMode || Bukkit.getOnlinePlayers().size() >= playersNeeded.get()) {
+            if ((debugMode || Bukkit.getOnlinePlayers().size() >= playersNeeded.get())) {
                 gameManager.startRandomGame();
             } else {
-                Bukkit.broadcastMessage(Formatting.translate(getConfig().getString("games.not-enough-players-message")));
+                if (!gameManager.isGameRunning())
+                    Bukkit.broadcastMessage(Formatting.translate(getConfig().getString("games.not-enough-players-message")));
             }
         }, delay, interval);
         FileUtils.loadResourceFile(this, "messages.yml").ifPresent(file -> this.messageConfig = new MessageConfig(file));
