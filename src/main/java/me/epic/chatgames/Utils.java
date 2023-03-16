@@ -15,7 +15,6 @@ public class Utils {
 
     @SneakyThrows
     public static Optional<YamlConfiguration> loadResourceFile(Plugin source, String resourceName) {
-        System.out.println(source.getDataFolder()+ File.separator + "games");
         File resourceFile = new File(source.getDataFolder() + File.separator + "games", resourceName);
 
         // Copy file if needed
