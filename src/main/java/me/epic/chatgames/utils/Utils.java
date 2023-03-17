@@ -1,6 +1,5 @@
 package me.epic.chatgames.utils;
 
-import lombok.SneakyThrows;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.spigotlib.config.ConfigUpdater;
@@ -15,11 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.text.Normalizer;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 public class Utils {
 

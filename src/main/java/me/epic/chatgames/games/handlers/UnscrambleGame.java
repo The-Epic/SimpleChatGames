@@ -1,9 +1,9 @@
 package me.epic.chatgames.games.handlers;
 
-import me.epic.chatgames.utils.Utils;
 import me.epic.chatgames.games.ChatGame;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.data.UnscrambleGameData;
+import me.epic.chatgames.utils.Utils;
 import me.epic.spigotlib.Timings;
 import me.epic.spigotlib.formatting.Formatting;
 import org.bukkit.Bukkit;

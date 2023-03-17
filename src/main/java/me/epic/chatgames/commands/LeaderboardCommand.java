@@ -1,7 +1,7 @@
 package me.epic.chatgames.commands;
 
-import me.epic.chatgames.utils.PlayerDataUtils;
 import me.epic.chatgames.SimpleChatGames;
+import me.epic.chatgames.utils.PlayerDataUtils;
 import me.epic.spigotlib.commands.SimpleCommandHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

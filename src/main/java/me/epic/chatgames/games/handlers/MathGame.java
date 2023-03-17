@@ -3,7 +3,6 @@ package me.epic.chatgames.games.handlers;
 import me.epic.chatgames.games.ChatGame;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.data.MathGameData;
-import me.epic.chatgames.games.data.UnscrambleGameData;
 import me.epic.chatgames.utils.MathQuestionGenerator;
 import me.epic.chatgames.utils.Utils;
 import me.epic.spigotlib.Timings;
@@ -12,8 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.nio.Buffer;
 
 public class MathGame extends ChatGame {
 

@@ -1,6 +1,5 @@
 package me.epic.chatgames.commands;
 
-import lombok.SneakyThrows;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.spigotlib.commands.SimpleCommandHandler;
 import org.bukkit.command.Command;

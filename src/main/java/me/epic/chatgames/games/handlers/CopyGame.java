@@ -3,18 +3,14 @@ package me.epic.chatgames.games.handlers;
 import me.epic.chatgames.games.ChatGame;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.data.CopyGameData;
-import me.epic.chatgames.games.data.GameData;
 import me.epic.chatgames.utils.RandomStringGenerator;
 import me.epic.chatgames.utils.Utils;
 import me.epic.spigotlib.Timings;
 import me.epic.spigotlib.formatting.Formatting;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import javax.swing.*;
 
 public class CopyGame extends ChatGame {
 
