@@ -8,7 +8,10 @@ import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
 import me.epic.spigotlib.language.MessageConfig;
 import me.epic.spigotlib.utils.FileUtils;
+import me.epic.spigotlib.utils.ServerUtils;
 import net.milkbowl.vault.economy.Economy;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,6 +35,7 @@ public final class SimpleChatGames extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         new UpdateChecker(this, 108655).runUpdateChecker(getConfig().getInt("update-checker.interval"), "https://www.spigotmc.org/resources/simplechatgames.108655/", getConfig().getBoolean("update-checker.enabled"));
+        loadBstats();
         ConfigUpdater.runConfigUpdater(this);
         reload();
         ConfigUpdater.update(this, "messages.yml", new File(getDataFolder(), "messages.yml"));
@@ -87,6 +91,11 @@ public final class SimpleChatGames extends JavaPlugin {
         }
         economy = rsp.getProvider();
         return economy != null;
+    }
+
+    public void loadBstats() {
+        Metrics metrics = new Metrics(this, 17979);
+        metrics.addCustomChart(new SimplePie("online_mode", ServerUtils::getMode));
     }
 
 }

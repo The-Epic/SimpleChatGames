@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'me.epic'
-version = '1.0.1'
+version = '1.0.2'
 
 repositories {
     mavenCentral()
@@ -27,12 +27,14 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:19.0.0'
     implementation 'commons-io:commons-io:2.11.0'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    implementation 'org.bstats:bstats-bukkit:3.0.0'
 }
 
 
 shadowJar {
     archiveFileName = "SimpleChatGames-${project.version}.jar"
     relocate 'me.epic.epicspigotlib', 'me.epic.chatgames.spigotlib'
+    relocate 'org.bstats', 'me.epic.chatgames.bstats'
     destinationDirectory = file("./target/")
 }
 
