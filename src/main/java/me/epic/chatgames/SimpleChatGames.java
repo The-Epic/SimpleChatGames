@@ -3,6 +3,7 @@ package me.epic.chatgames;
 import lombok.Getter;
 import me.epic.chatgames.commands.CommandHandler;
 import me.epic.chatgames.games.GameManager;
+import me.epic.spigotlib.UpdateChecker;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
 import me.epic.spigotlib.language.MessageConfig;
@@ -30,7 +31,7 @@ public final class SimpleChatGames extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        //new UpdateChecker(this, 0).runUpdateChecker(getConfig().getInt("update-checker.interval"), "cool link", getConfig().getBoolean("update-checker.enabled"));
+        new UpdateChecker(this, 108655).runUpdateChecker(getConfig().getInt("update-checker.interval"), "https://www.spigotmc.org/resources/simplechatgames.108655/", getConfig().getBoolean("update-checker.enabled"));
         ConfigUpdater.runConfigUpdater(this);
         reload();
         ConfigUpdater.update(this, "messages.yml", new File(getDataFolder(), "messages.yml"));
