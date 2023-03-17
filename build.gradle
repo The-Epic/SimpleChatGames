@@ -33,7 +33,7 @@ dependencies {
 shadowJar {
     archiveFileName = "SimpleChatGames-${project.version}.jar"
     relocate 'me.epic.epicspigotlib', 'me.epic.chatgames.spigotlib'
-    destinationDirectory = file("C:\\Users\\immrt\\Desktop\\Minecraft-Servers\\1.19.3\\plugins")
+    destinationDirectory = file("./target/")
 }
 
 build {
