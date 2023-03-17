@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     implementation 'me.epic:epicspigotlib:1.0.7-SNAPSHOT'
-    compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.jetbrains:annotations:19.0.0'
@@ -34,7 +34,6 @@ shadowJar {
     archiveFileName = "${project.name}-${project.version}.jar"
     relocate 'me.epic.epicspigotlib', 'me.epic.chatgames.spigotlib'
     destinationDirectory = file("C:\\Users\\immrt\\Desktop\\Minecraft-Servers\\1.19.3\\plugins")
-    minimize()
 }
 
 build {

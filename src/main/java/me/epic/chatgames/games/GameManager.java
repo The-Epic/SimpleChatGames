@@ -2,11 +2,8 @@ package me.epic.chatgames.games;
 
 import lombok.Getter;
 import me.epic.chatgames.SimpleChatGames;
-import me.epic.chatgames.games.data.CopyGameData;
+import me.epic.chatgames.games.data.*;
 import me.epic.chatgames.utils.Utils;
-import me.epic.chatgames.games.data.GameData;
-import me.epic.chatgames.games.data.TriviaGameData;
-import me.epic.chatgames.games.data.UnscrambleGameData;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,9 +26,10 @@ public class GameManager implements Listener {
 
     public void loadGames() {
         games.clear();
-        Utils.loadResourceFile(plugin, "unscramble.yml").ifPresent(config -> registerGame(new UnscrambleGameData(config)));
-        Utils.loadResourceFile(plugin, "trivia.yml").ifPresent(config -> registerGame(new TriviaGameData(config)));
-        Utils.loadResourceFile(plugin, "copy.yml").ifPresent(config -> registerGame(new CopyGameData(config)));
+        Utils.loadResource(plugin, "unscramble.yml", "\\games/").ifPresent(config -> registerGame(new UnscrambleGameData(config)));
+        Utils.loadResource(plugin, "trivia.yml", "\\games/").ifPresent(config -> registerGame(new TriviaGameData(config)));
+        Utils.loadResource(plugin, "copy.yml", "\\games/").ifPresent(config -> registerGame(new CopyGameData(config)));
+        Utils.loadResource(plugin, "maths.yml", "\\games").ifPresent(config -> registerGame(new MathGameData(config)));
     }
 
     public boolean isGameRunning() {
@@ -40,7 +38,6 @@ public class GameManager implements Listener {
 
 
     public void startRandomGame() {
-        System.out.println(games);
         ChatGame<? extends GameData> game = games.get(ThreadLocalRandom.current().nextInt(games.size())).createGame(this);
         if (!isGameRunning()) {
             activeGame = game;

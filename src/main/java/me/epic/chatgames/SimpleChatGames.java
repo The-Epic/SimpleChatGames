@@ -54,6 +54,12 @@ public final class SimpleChatGames extends JavaPlugin {
         }
     }
 
+    @Override
+    public void onDisable() {
+        if (gameManager.isGameRunning()) gameManager.getActiveGame().end();
+        gameManager.clearActiveGame();
+    }
+
     public void reload() {
         if (mainGameTask != null) mainGameTask.cancel();
         reloadConfig();

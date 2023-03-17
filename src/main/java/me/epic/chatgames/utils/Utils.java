@@ -17,24 +17,36 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.text.Normalizer;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Utils {
 
-    @SneakyThrows
-    public static Optional<YamlConfiguration> loadResourceFile(Plugin source, String resourceName) {
-        File resourceFile = new File(source.getDataFolder() + File.separator + "games", resourceName);
+    public static Optional<File> loadResourceFile(Plugin source, String resourceName, String folder) {
+        File resourceFile = new File(source.getDataFolder() + folder, resourceName);
 
         // Copy file if needed
-        if (!resourceFile.exists() && source.getResource("games/" + resourceName) != null) {
-            source.saveResource("games/" + resourceName, false);
-            ConfigUpdater.update(source, "games/" + resourceName, resourceFile);
+        if (!resourceFile.exists() && source.getResource(resourceName) != null) {
+            source.saveResource(resourceName, false);
+            ConfigUpdater.update(source, resourceName, resourceFile);
         }
 
         // File still doesn't exist, return empty
         if (!resourceFile.exists()) {
             return Optional.empty();
         }
-        return Optional.of(YamlConfiguration.loadConfiguration(resourceFile));
+        return Optional.of(resourceFile);
+    }
+
+    public static Optional<YamlConfiguration> loadResource(Plugin source, String resourceName, String folderName) {
+        Optional<File> optional = loadResourceFile(source, resourceName, folderName);
+
+        if (optional.isPresent()) {
+            return Optional.of(YamlConfiguration.loadConfiguration(optional.get()));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public static String scrambleWord(String input) {
