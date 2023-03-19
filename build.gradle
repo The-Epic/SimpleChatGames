@@ -4,14 +4,14 @@ plugins {
 }
 
 group = 'me.epic'
-version = '1.0.2'
+version = '1.0.3'
 
 repositories {
     mavenCentral()
     mavenLocal()
-    //maven {
-    //    url "https://repo.epicebic.xyz/public"
-    //}
+    maven {
+        url "https://repo.epicebic.xyz/public"
+    }
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
