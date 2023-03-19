@@ -1,5 +1,6 @@
 package me.epic.chatgames.utils;
 
+import lombok.SneakyThrows;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.spigotlib.config.ConfigUpdater;
@@ -12,18 +13,22 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Utils {
 
-    public static Optional<File> loadResourceFile(Plugin source, String resourceName, String folder) {
-        File resourceFile = new File(source.getDataFolder() + folder, resourceName);
+    public static Optional<File> loadResourceFile(Plugin source, String resourceName) {
+        File resourceFile = new File(source.getDataFolder() + File.separator + "games", resourceName);
 
         // Copy file if needed
-        if (!resourceFile.exists() && source.getResource(resourceName) != null) {
-            source.saveResource(resourceName, false);
+        if (!resourceFile.exists()) {
+            source.saveResource("games/" + resourceName, false);
             ConfigUpdater.update(source, resourceName, resourceFile);
         }
 
@@ -34,8 +39,9 @@ public class Utils {
         return Optional.of(resourceFile);
     }
 
-    public static Optional<YamlConfiguration> loadResource(Plugin source, String resourceName, String folderName) {
-        Optional<File> optional = loadResourceFile(source, resourceName, folderName);
+    public static Optional<YamlConfiguration> loadResource(JavaPlugin source, String resourceName) {
+        loadFiles(source, file -> source.saveResource(file, false));
+        Optional<File> optional = loadResourceFile(source, resourceName);
 
         if (optional.isPresent()) {
             return Optional.of(YamlConfiguration.loadConfiguration(optional.get()));
@@ -43,6 +49,26 @@ public class Utils {
             return Optional.empty();
         }
     }
+
+    @SneakyThrows
+    private static void loadFiles(JavaPlugin plugin, Consumer<String> consumer) {
+        final File jarFile = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+        if (jarFile.isFile()) {
+            final JarFile jar = new JarFile(jarFile);
+            final Enumeration<JarEntry> entries = jar.entries();
+            while (entries.hasMoreElements()) {
+                final JarEntry entry = entries.nextElement();
+                if (entry.isDirectory()) continue;
+
+                final String name = entry.getName();
+                if (name.startsWith("games" + "/")) {
+                    if (plugin.getDataFolder().exists() && !(new File(plugin.getDataFolder(), name).exists()))
+                        consumer.accept(name);
+                }
+            }
+        }
+    }
+
 
     public static String scrambleWord(String input) {
         String[] words = input.split(" ");
@@ -62,7 +88,7 @@ public class Utils {
 
     public static void giveRewardAndNotify(SimpleChatGames plugin, Player player, GameData gameData, String timeTook) {
         FileConfiguration config = plugin.getConfig();
-        SchedulerUtils.oneTickDelay(plugin, () -> {
+        SchedulerUtils.oneTickDelay(() -> {
             Bukkit.broadcastMessage(Formatting.translate(gameData.getGameConfig().getString("messages.end.won").replace("%time%", timeTook.toString()).replace("%player_name%", player.getName())));
             if (plugin.isVaultPresent() && !(config.get("rewards.economy") instanceof String)) {
                 plugin.getEconomy().depositPlayer(player, config.getDouble("rewards.economy"));

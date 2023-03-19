@@ -35,7 +35,7 @@ public class RewardCommand extends SimpleCommandHandler {
             case "set" -> {
                 switch (args[1]) {
                     case "item" -> {
-                        config.set("rewards.item", ItemSerializer.itemStackToBase64(player.getInventory().getItemInMainHand()));
+                        config.set("rewards.item", ItemSerializer.toBase64(player.getInventory().getItemInMainHand()));
                         plugin.saveConfig();
                         plugin.reloadConfig();
                     }
