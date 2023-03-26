@@ -29,7 +29,6 @@ public class Utils {
         // Copy file if needed
         if (!resourceFile.exists()) {
             source.saveResource("games/" + resourceName, false);
-            ConfigUpdater.update(source, resourceName, resourceFile);
         }
 
         // File still doesn't exist, return empty
@@ -62,8 +61,11 @@ public class Utils {
 
                 final String name = entry.getName();
                 if (name.startsWith("games" + "/")) {
-                    if (plugin.getDataFolder().exists() && !(new File(plugin.getDataFolder(), name).exists()))
+                    File file = new File(plugin.getDataFolder(), name);
+                    if (plugin.getDataFolder().exists() && !(file.exists())) {
                         consumer.accept(name);
+                    }
+                    if (file.exists()) ConfigUpdater.update(plugin, name, file);
                 }
             }
         }

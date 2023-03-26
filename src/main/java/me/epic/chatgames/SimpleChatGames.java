@@ -45,7 +45,6 @@ public final class SimpleChatGames extends JavaPlugin {
         gameManager.loadGames();
 
         if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
-            System.out.println("test");
             vaultPresent = true;
             setupEconomy();
         }
