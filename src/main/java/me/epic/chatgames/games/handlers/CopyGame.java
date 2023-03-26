@@ -12,6 +12,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class CopyGame extends ChatGame {
 
 
@@ -27,7 +30,13 @@ public class CopyGame extends ChatGame {
     protected void start() {
         super.start();
 
-        this.answer = new RandomStringGenerator(gameConfig.getString("possible-characters")).generate(gameConfig.getInt("word-length"));
+        if (gameConfig.getString("type", "auto-generated").equals("static")) {
+            List<String> possibleAnswers = gameConfig.getStringList("copy-words");
+            this.answer = possibleAnswers.get(ThreadLocalRandom.current().nextInt(possibleAnswers.size()));
+        } else {
+            this.answer = new RandomStringGenerator(gameConfig.getString("possible-characters")).generate(gameConfig.getInt("word-length"));
+        }
+
 
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%word%", answer)));
         if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {

@@ -64,7 +64,6 @@ public class TriviaGame extends ChatGame {
 
     @Override
     public void handleChat(AsyncPlayerChatEvent event) {
-        System.out.println(event.getMessage().toLowerCase());
         if (answers.contains(event.getMessage().toLowerCase())) {
             win(event.getPlayer());
         }
