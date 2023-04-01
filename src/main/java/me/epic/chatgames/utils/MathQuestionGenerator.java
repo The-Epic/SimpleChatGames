@@ -18,10 +18,6 @@ public class MathQuestionGenerator {
         this.random = new Random();
     }
 
-    public int generateNiceNumber() {
-        int number = random.nextInt(upperLimit - lowerLimit + 1) + lowerLimit;
-        return number - (number % 10);
-    }
 
     public String generateQuestion() {
         int num1 = random.nextInt(upperLimit - lowerLimit + 1) + lowerLimit;

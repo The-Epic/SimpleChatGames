@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomStringGenerator {
 
-    private String characters = new String();
+    private String characters;
     private final Random random;
 
 
