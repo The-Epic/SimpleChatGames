@@ -34,9 +34,8 @@ dependencies {
 
 shadowJar {
     archiveFileName = "SimpleChatGames-${project.version}.jar"
-    relocate 'me.epic.epicspigotlib', 'me.epic.chatgames.spigotlib'
+    relocate 'me.epic.spigotlib', 'me.epic.chatgames.spigotlib'
     relocate 'org.bstats', 'me.epic.chatgames.bstats'
-    relocate 'net.kyori', 'me.epic.kyori'
     destinationDirectory = file("./target/")
     minimize()
 }
