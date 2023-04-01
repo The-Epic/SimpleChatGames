@@ -51,6 +51,7 @@ public class RewardCommand extends SimpleCommandHandler {
                         config.set("rewards.economy", Double.valueOf(args[2]));
                         plugin.saveConfig();
                     }
+                    default -> player.sendMessage("Invalid command arguments, use /cg reward set <item|command|economy>");
                 }
             }
             case "clear" -> {
@@ -63,6 +64,7 @@ public class RewardCommand extends SimpleCommandHandler {
                 config.set("rewards." + args[1], "disabled");
                 plugin.saveConfig();
             }
+            default -> player.sendMessage("Invalid command arguments, use /cg reward <set|clear|disabled>");
         }
         return true;
     }

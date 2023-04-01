@@ -23,7 +23,7 @@ public class LeaderboardCommand extends SimpleCommandHandler {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        int page = args[0] == null ? 1 : Integer.valueOf(args[0]);
+        int page = args[0] == null ? 1 : Integer.parseInt(args[0]);
         sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-message").replace("%number%", String.valueOf(page)));
         int count = 10 * page;
         for (Map.Entry<String, Integer> entry : PlayerDataUtils.getTopPlayerData(count - 10 , count).entrySet()) {
