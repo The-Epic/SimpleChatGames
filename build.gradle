@@ -44,6 +44,9 @@ build {
     dependsOn shadowJar
 }
 
+tasks.register('release') {
+    finalizedBy(clean, build, publish)
+}
 
 processResources {
     def props = [version: version]
@@ -54,5 +57,4 @@ processResources {
     }
 }
 
-shadowJar.shouldRunAfter build
-build.shouldRunAfter subprojects.build
+apply from: 'https://raw.githubusercontent.com/The-Epic/gradle-scripts/main/publishing.gradle'

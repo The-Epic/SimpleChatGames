@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TriviaGame extends ChatGame {
     private List<String> answers = new ArrayList<>();
-    private YamlConfiguration gameConfig = gameData.getGameConfig();
+    private final YamlConfiguration gameConfig = gameData.getGameConfig();
 
     public TriviaGame(TriviaGameData data, GameManager manager) {
         super(data.getDuration(), manager, data);
@@ -27,10 +27,7 @@ public class TriviaGame extends ChatGame {
     protected void start() {
         super.start();
 
-        List<String> questions = new ArrayList<>();
-        for (String question : gameConfig.getConfigurationSection("questions").getKeys(false)) {
-            questions.add(question);
-        }
+        List<String> questions = new ArrayList<>(gameConfig.getConfigurationSection("questions").getKeys(false));
         String question = questions.get(ThreadLocalRandom.current().nextInt(questions.size()));
         answers = gameConfig.getStringList("questions." + question + ".answers");
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%question%", question)));
@@ -47,9 +44,8 @@ public class TriviaGame extends ChatGame {
         super.win(player);
 
         long timeTookLong = Timings.endTimings("trivia-chatgame");
-        StringBuilder finalTimeTook = new StringBuilder();
-        finalTimeTook.append(String.format("%.2f", ((double) timeTookLong / 1000.0)));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook.toString());
+        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
         answers = new ArrayList<>();
     }
 

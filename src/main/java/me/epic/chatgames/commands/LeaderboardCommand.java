@@ -7,14 +7,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-
 public class LeaderboardCommand extends SimpleCommandHandler {
 
     private final SimpleChatGames plugin;
-    private Map<UUID, Integer> playerWins = new HashMap<>();
 
     public LeaderboardCommand(SimpleChatGames plugin) {
         super("simplechatgames.command.leaderboard");
@@ -23,7 +19,7 @@ public class LeaderboardCommand extends SimpleCommandHandler {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        int page = args[0] == null ? 1 : Integer.parseInt(args[0]);
+        int page = args.length < 1 ? 1 : Integer.parseInt(args[0]);
         sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-message").replace("%number%", String.valueOf(page)));
         int count = 10 * page;
         for (Map.Entry<String, Integer> entry : PlayerDataUtils.getTopPlayerData(count - 10 , count).entrySet()) {

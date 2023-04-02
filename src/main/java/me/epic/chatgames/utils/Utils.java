@@ -5,8 +5,11 @@ import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
+import me.epic.spigotlib.material.MaterialUtils;
 import me.epic.spigotlib.serialisation.ItemSerializer;
 import me.epic.spigotlib.utils.SchedulerUtils;
+import me.epic.spigotlib.utils.StringUtils;
+import me.epic.spigotlib.utils.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.StringUtil;
 
 import java.io.File;
 import java.util.*;
@@ -22,6 +26,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Utils {
+    private static boolean ran = false;
 
     public static Optional<File> loadResourceFile(Plugin source, String resourceName) {
         File resourceFile = new File(source.getDataFolder() + File.separator + "games", resourceName);
@@ -39,7 +44,10 @@ public class Utils {
     }
 
     public static Optional<YamlConfiguration> loadResource(JavaPlugin source, String resourceName) {
-        loadFiles(source, file -> source.saveResource(file, false));
+        if (!ran) {
+            loadFiles(source, file -> source.saveResource(file, false));
+            ran = true;
+        }
         Optional<File> optional = loadResourceFile(source, resourceName);
 
         if (optional.isPresent()) {
@@ -102,7 +110,7 @@ public class Utils {
             if (!config.getString("rewards.item").equals("disabled")) {
                 ItemStack itemStack = ItemSerializer.itemStackFromBase64(config.getString("rewards.item"));
                 player.getInventory().addItem(itemStack);
-                player.sendMessage(plugin.getMessageConfig().getString("item-given").replace("%item_count%", String.valueOf(itemStack.getAmount())).replace("%item_name%", itemStack.getItemMeta().getDisplayName()));
+                player.sendMessage(plugin.getMessageConfig().getString("item-given").replace("%item_count%", String.valueOf(itemStack.getAmount())).replace("%item_name%", itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : WordUtils.getNiceName(itemStack.getType().toString())));
             }
         });
 

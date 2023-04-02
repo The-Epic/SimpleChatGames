@@ -38,7 +38,7 @@ public class GameManager implements Listener {
 
 
     public void startRandomGame() {
-        ChatGame<? extends GameData> game = games.get(ThreadLocalRandom.current().nextInt(games.size())).createGame(this);
+        ChatGame<?> game = games.get(ThreadLocalRandom.current().nextInt(games.size())).createGame(this);
         if (!isGameRunning()) {
             activeGame = game;
 
