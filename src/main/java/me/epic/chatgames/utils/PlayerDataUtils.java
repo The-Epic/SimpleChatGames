@@ -4,6 +4,7 @@ import com.google.gson.*;
 import lombok.SneakyThrows;
 import me.epic.chatgames.SimpleChatGames;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -15,16 +16,21 @@ public class PlayerDataUtils {
 
     private static final HashMap<UUID, Integer> playerData = new HashMap<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final JsonParser jsonParser = new JsonParser();
     private static final File dataFile = new File(SimpleChatGames.getPlugin().getDataFolder(), "data.json");
 
+    public static void init() {
+        if (dataFile.exists()) {
+            readFile();
+        }
+    }
+
     @SneakyThrows
-    public static int getPlayerData(Player player) {
+    public static int getPlayerData(OfflinePlayer player) {
         UUID uuid = player.getUniqueId();
         int data = playerData.getOrDefault(uuid, 0);
         if (dataFile.exists()) {
             String json = Files.readString(dataFile.toPath());
-            JsonElement element = jsonParser.parse(json);
+            JsonElement element = new JsonParser().parse(json);
             if (element.isJsonObject()) {
                 JsonObject jsonObject = element.getAsJsonObject();
                 if (jsonObject.has(uuid.toString())) {
@@ -48,18 +54,46 @@ public class PlayerDataUtils {
         Files.writeString(dataFile.toPath(), gson.toJson(jsonObject));
     }
 
+    @SuppressWarnings("unchecked")
     @SneakyThrows
-    public static Map<String, Integer> getTopPlayerData(int start, int count) {
+    public static List<PlayerData> getTopPlayerData(int start, int count) {
+        if (!readFile()) {
+            return Collections.emptyList();
+        }
+        List<PlayerData> topPlayerData = new ArrayList<>();
+        List<Map.Entry<UUID, Integer>> sortedEntries = new ArrayList<>(playerData.entrySet());
+        sortedEntries.sort(Map.Entry.<UUID, Integer>comparingByValue().reversed());
+
+        int endIndex = Math.min(start + count, sortedEntries.size());
+        for (int i = start; i < endIndex; i++) {
+            Map.Entry<UUID, Integer> entry = sortedEntries.get(i);
+            UUID playerId = entry.getKey();
+            int gamesWon = entry.getValue();
+            topPlayerData.add(new PlayerData(Bukkit.getOfflinePlayer(playerId), gamesWon));
+        }
+        return topPlayerData;
+    }
+
+
+    public static PlayerData getPlayerDataAtPosition(int position) {
+        List<PlayerData> topPlayerData = getTopPlayerData(position - 1, 1);
+        if (topPlayerData.isEmpty()) {
+            return PlayerData.ofUnknown();
+        }
+        return topPlayerData.get(0);
+    }
+
+    @SneakyThrows
+    private static boolean readFile() {
         if (!dataFile.exists()) {
-            return Collections.emptyMap();
+            return false;
         }
         String json = Files.readString(dataFile.toPath());
-        JsonElement element = jsonParser.parse(json);
+        JsonElement element = new JsonParser().parse(json);
         if (!element.isJsonObject()) {
-            return Collections.emptyMap();
+            return false;
         }
         JsonObject jsonObject = element.getAsJsonObject();
-        Map<UUID, Integer> playerData = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
             String playerIdString = entry.getKey();
             JsonElement dataElement = entry.getValue();
@@ -69,20 +103,6 @@ public class PlayerDataUtils {
                 playerData.put(playerId, data);
             }
         }
-        Map<UUID, String> playerNames = new HashMap<>();
-        for (UUID uuid : playerData.keySet()) {
-            playerNames.put(uuid, Bukkit.getOfflinePlayer(uuid).getName());
-        }
-        Map<String, Integer> topPlayerData = new LinkedHashMap<>();
-        playerData.entrySet().stream()
-                .sorted(Map.Entry.<UUID, Integer>comparingByValue().reversed())
-                .skip(start)
-                .limit(count)
-                .forEach(entry -> {
-                    UUID playerId = entry.getKey();
-                    String playerName = playerNames.getOrDefault(playerId, "Unknown");
-                    topPlayerData.put(playerName, entry.getValue());
-                });
-        return topPlayerData;
+        return true;
     }
 }

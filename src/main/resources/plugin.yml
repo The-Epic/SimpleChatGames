@@ -2,8 +2,7 @@ name: SimpleChatGames
 version: '${version}'
 main: me.epic.chatgames.SimpleChatGames
 api-version: 1.17
-softdepend:
-  - Vault
+softdepend: [Vault, PlaceholderAPI]
 
 commands:
   simplechatgames:

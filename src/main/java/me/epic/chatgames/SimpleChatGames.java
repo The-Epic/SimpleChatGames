@@ -3,6 +3,8 @@ package me.epic.chatgames;
 import lombok.Getter;
 import me.epic.chatgames.commands.CommandHandler;
 import me.epic.chatgames.games.GameManager;
+import me.epic.chatgames.placeholderapi.SimpleChatGamesExpansion;
+import me.epic.chatgames.utils.PlayerDataUtils;
 import me.epic.spigotlib.UpdateChecker;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
@@ -34,19 +36,26 @@ public final class SimpleChatGames extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        plugin = this;
         new UpdateChecker(this, 108655).runUpdateChecker(getConfig().getInt("update-checker.interval"), "https://www.spigotmc.org/resources/simplechatgames.108655/", getConfig().getBoolean("update-checker.enabled"));
         loadBstats();
         ConfigUpdater.runConfigUpdater(this);
         reload();
         ConfigUpdater.update(this, "messages.yml", new File(getDataFolder(), "messages.yml"));
         getCommand("simplechatgames").setExecutor(new CommandHandler(this));
-        plugin = this;
         gameManager = new GameManager(this);
         gameManager.loadGames();
+        PlayerDataUtils.init();
 
-        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            getLogger().info("Vault found, registering compatibility.");
             vaultPresent = true;
             setupEconomy();
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            getLogger().info("PlaceholderAPI found, registering compatibility.");
+            new SimpleChatGamesExpansion().register();
         }
     }
 

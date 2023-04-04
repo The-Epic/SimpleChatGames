@@ -1,6 +1,7 @@
 package me.epic.chatgames.commands;
 
 import me.epic.chatgames.SimpleChatGames;
+import me.epic.chatgames.utils.PlayerData;
 import me.epic.chatgames.utils.PlayerDataUtils;
 import me.epic.spigotlib.commands.SimpleCommandHandler;
 import org.bukkit.command.Command;
@@ -19,11 +20,11 @@ public class LeaderboardCommand extends SimpleCommandHandler {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        int page = args.length < 1 ? 1 : Integer.parseInt(args[0]);
+        int page = args.length == 1 ? 1 : Integer.parseInt(args[1]);
         sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-message").replace("%number%", String.valueOf(page)));
         int count = 10 * page;
-        for (Map.Entry<String, Integer> entry : PlayerDataUtils.getTopPlayerData(count - 10 , count).entrySet()) {
-            sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-line").replace("%player_name%", entry.getKey()).replace("%wins%", String.valueOf(entry.getValue())));
+        for (PlayerData data : PlayerDataUtils.getTopPlayerData(count - 10 , count)) {
+            sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-line").replace("%player_name%", data.getPlayerName()).replace("%wins%", String.valueOf(data.getGamesWon())));
         }
         return true;
     }

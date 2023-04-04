@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.epic:epicspigotlib:1.1.1-SNAPSHOT'
+    implementation 'me.epic:epicspigotlib:1+'
     compileOnly 'org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.projectlombok:lombok:1.18.24'
@@ -29,6 +29,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.11.0'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     implementation 'org.bstats:bstats-bukkit:3.0.0'
+    compileOnly 'me.clip:placeholderapi:2.11.2'
 }
 
 
@@ -56,5 +57,7 @@ processResources {
         expand props
     }
 }
+
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
 apply from: 'https://raw.githubusercontent.com/The-Epic/gradle-scripts/main/publishing.gradle'
