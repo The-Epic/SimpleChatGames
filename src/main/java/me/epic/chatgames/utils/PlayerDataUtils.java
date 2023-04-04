@@ -11,7 +11,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
 
-@SuppressWarnings("deprecation")
 public class PlayerDataUtils {
 
     private static final HashMap<UUID, Integer> playerData = new HashMap<>();
@@ -54,7 +53,6 @@ public class PlayerDataUtils {
         Files.writeString(dataFile.toPath(), gson.toJson(jsonObject));
     }
 
-    @SuppressWarnings("unchecked")
     @SneakyThrows
     public static List<PlayerData> getTopPlayerData(int start, int count) {
         if (!readFile()) {
