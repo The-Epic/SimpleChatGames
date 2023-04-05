@@ -38,6 +38,7 @@ shadowJar {
     relocate 'me.epic.spigotlib', 'me.epic.chatgames.spigotlib'
     relocate 'org.bstats', 'me.epic.chatgames.bstats'
     destinationDirectory = file("./target/")
+    archiveClassifier.set('')
     minimize()
 }
 
