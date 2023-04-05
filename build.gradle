@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id "com.github.johnrengelman.shadow" version "7.1.0"
+    id 'maven-publish'
 }
 
 group = 'me.epic'
@@ -69,4 +70,25 @@ processResources {
 
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
-apply from: 'https://raw.githubusercontent.com/The-Epic/gradle-scripts/main/publishing.gradle'
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            project.shadow.component(publication)
+            artifacts = [shadowJar, javadocJar, sourcesJar]
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username = "epic"
+                password = System.getenv("EPICREPO_SECRET")
+            }
+            url = 'https://repo.epicebic.xyz/public/'
+        }
+    }
+}
