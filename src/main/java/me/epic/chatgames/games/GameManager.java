@@ -52,7 +52,7 @@ public class GameManager implements Listener {
         activeGame = null;
     }
 
-    private void registerGame(GameData data) {
+    public void registerGame(GameData data) {
         if (data.getGameConfig().getBoolean("enabled")) {
             games.add(data);
         }

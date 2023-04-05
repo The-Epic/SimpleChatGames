@@ -45,7 +45,9 @@ shadowJar {
     relocate 'org.bstats', 'me.epic.chatgames.bstats'
     destinationDirectory = file("./target/")
     archiveClassifier.set('')
-    minimize()
+    minimize {
+        exclude('me.epic.spigotlib.utils.**')
+    }
 }
 
 build {
