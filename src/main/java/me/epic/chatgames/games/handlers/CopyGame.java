@@ -15,10 +15,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class CopyGame extends ChatGame {
+public class CopyGame extends ChatGame<CopyGameData> {
 
 
-    private String answer = new String();
+    private String answer = "";
     private YamlConfiguration gameConfig;
 
     public CopyGame(CopyGameData data, GameManager manager) {

@@ -1,5 +1,6 @@
 package me.epic.chatgames.games;
 
+import lombok.Getter;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.chatgames.utils.PlayerDataUtils;
 import org.bukkit.entity.Player;
@@ -7,7 +8,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public abstract class ChatGame<T extends GameData> {
     protected final long startTime;
-    protected final long endTime;
+    @Getter
+    private final long endTime;
     protected final GameManager manager;
     protected final GameRunnable timer;
     protected final T gameData;

@@ -9,7 +9,7 @@ public class GameRunnable extends BukkitRunnable {
 
     public GameRunnable(ChatGame<?> game) {
         this.game = game;
-        this.endTime = game.endTime;
+        this.endTime = game.getEndTime();
     }
 
     @Override

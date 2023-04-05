@@ -21,6 +21,7 @@ import org.bukkit.util.StringUtil;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -122,5 +123,11 @@ public class Utils {
             joiner.add(string);
         }
         return joiner.toString();
+    }
+
+    public static String formatMillis(long millis) {
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(minutes);
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }

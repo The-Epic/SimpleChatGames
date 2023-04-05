@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class MathGame extends ChatGame {
+public class MathGame extends ChatGame<MathGameData> {
 
     private String answer = new String();
     private YamlConfiguration gameConfig = gameData.getGameConfig();

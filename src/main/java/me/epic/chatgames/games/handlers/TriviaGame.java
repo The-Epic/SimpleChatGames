@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TriviaGame extends ChatGame {
+public class TriviaGame extends ChatGame<TriviaGameData> {
     private List<String> answers = new ArrayList<>();
     private final YamlConfiguration gameConfig = gameData.getGameConfig();
 

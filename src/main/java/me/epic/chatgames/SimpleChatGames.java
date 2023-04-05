@@ -55,7 +55,7 @@ public final class SimpleChatGames extends JavaPlugin {
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             getLogger().info("PlaceholderAPI found, registering compatibility.");
-            new SimpleChatGamesExpansion().register();
+            new SimpleChatGamesExpansion(gameManager).register();
         }
     }
 

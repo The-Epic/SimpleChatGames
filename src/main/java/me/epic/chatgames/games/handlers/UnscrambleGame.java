@@ -14,7 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class UnscrambleGame extends ChatGame {
+public class UnscrambleGame extends ChatGame<UnscrambleGameData> {
 
     private String answer = new String();
     private YamlConfiguration gameConfig = gameData.getGameConfig();

@@ -16,6 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GameManager implements Listener {
     private final List<GameData> games = new ArrayList<>();
     @Getter private final SimpleChatGames plugin;
+    @Getter private long lastGameTime = System.currentTimeMillis();
 
     @Getter private volatile ChatGame<? extends GameData> activeGame = null;
 
@@ -43,6 +44,7 @@ public class GameManager implements Listener {
             activeGame = game;
 
             activeGame.start();
+            this.lastGameTime = activeGame.getEndTime();
         }
     }
 
