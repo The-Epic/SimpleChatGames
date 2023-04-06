@@ -46,9 +46,8 @@ public class MathGame extends ChatGame<MathGameData> {
         super.win(player);
 
         long timeTookLong = Timings.endTimings("math-chatgame");
-        StringBuilder finalTimeTook = new StringBuilder();
-        finalTimeTook.append(String.format("%.2f", ((double) timeTookLong / 1000.0)));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook.toString());
+        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
         this.answer = new String();
     }
 
