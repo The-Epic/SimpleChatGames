@@ -19,7 +19,7 @@ public class CopyGame extends ChatGame<CopyGameData> {
 
 
     private String answer = "";
-    private YamlConfiguration gameConfig;
+    private final YamlConfiguration gameConfig;
 
     public CopyGame(CopyGameData data, GameManager manager) {
         super(data.getDuration(), manager, data);

@@ -3,6 +3,9 @@ version: '${version}'
 main: me.epic.chatgames.SimpleChatGames
 api-version: 1.17
 softdepend: [Vault, PlaceholderAPI]
+libraries:
+  - 'com.zaxxer:HikariCP:5.0.1'
+
 
 commands:
   simplechatgames:

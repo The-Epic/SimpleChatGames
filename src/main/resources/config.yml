@@ -10,6 +10,12 @@ update-checker:
 # Disables rewards
 debug: false
 
+storage:
+  #Valid storage types:
+  # - json
+  # - sqlite
+  type: "json"
+
 games:
   interval: 5 # Minutes
   players: 2

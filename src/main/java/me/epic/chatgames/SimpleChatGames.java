@@ -45,7 +45,7 @@ public final class SimpleChatGames extends JavaPlugin {
         getCommand("simplechatgames").setExecutor(new CommandHandler(this));
         gameManager = new GameManager(this);
         gameManager.loadGames();
-        PlayerDataUtils.init();
+        PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             getLogger().info("Vault found, registering compatibility.");

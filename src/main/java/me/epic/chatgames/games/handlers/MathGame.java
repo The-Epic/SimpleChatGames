@@ -15,7 +15,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class MathGame extends ChatGame<MathGameData> {
 
     private String answer = new String();
-    private YamlConfiguration gameConfig = gameData.getGameConfig();
+    private final YamlConfiguration gameConfig = gameData.getGameConfig();
 
 
     public MathGame(MathGameData data, GameManager manager) {

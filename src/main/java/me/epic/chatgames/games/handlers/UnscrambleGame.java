@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class UnscrambleGame extends ChatGame<UnscrambleGameData> {
 
     private String answer = new String();
-    private YamlConfiguration gameConfig = gameData.getGameConfig();
+    private final YamlConfiguration gameConfig = gameData.getGameConfig();
 
     public UnscrambleGame(UnscrambleGameData data, GameManager manager) {
         super(data.getDuration(), manager, data);
