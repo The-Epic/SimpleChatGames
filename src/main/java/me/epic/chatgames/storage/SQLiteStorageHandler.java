@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SQLiteStorageHandler implements StorageHandler{
+public class SQLiteStorageHandler implements StorageHandler {
     private final SQliteConnectionPool connectionPool;
     private Connection connection;
 
@@ -28,7 +28,7 @@ public class SQLiteStorageHandler implements StorageHandler{
     @SneakyThrows
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS player_data (" +
-                "uuid TEXT PRIMARY KEY," +
+                "uuid VARCHAR(36) PRIMARY KEY," +
                 "data INTEGER" +
                 ");";
         PreparedStatement statement = connection.prepareStatement(sql);
