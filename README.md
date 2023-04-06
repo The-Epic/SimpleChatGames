@@ -2,7 +2,7 @@
 Official repository for the SimpleChatGames plugin
 
 
-#Using the api
+# Using the api
 
 ## Repository and Dependency
 
