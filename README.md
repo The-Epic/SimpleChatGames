@@ -137,7 +137,7 @@ public class CoolGame extends ChatGame<CoolGameData> {
         //Handle win logic
 
         //This may be subject to change
-        long timeTookLong = Timings.endTimings("unscramble-chatgame");
+        long timeTookLong = Timings.endTimings("coolgame-chatgame");
         String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
         Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
         answer = "";
