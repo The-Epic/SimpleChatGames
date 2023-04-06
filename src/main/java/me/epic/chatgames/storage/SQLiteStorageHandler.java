@@ -15,11 +15,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class SQLiteStorageHandler implements StorageHandler {
-    private final SQliteConnectionPool connectionPool;
     private Connection connection;
 
     public SQLiteStorageHandler() {
-        this.connectionPool = new SQliteConnectionPool("SimpleChatGames", "data", SimpleChatGames.getPlugin().getDataFolder());
+        SQliteConnectionPool connectionPool = new SQliteConnectionPool("SimpleChatGames", "data", SimpleChatGames.getPlugin().getDataFolder());
         this.connection = connectionPool.getConnection();
 
         createTable();
