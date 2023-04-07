@@ -51,11 +51,7 @@ public class Utils {
         }
         Optional<File> optional = loadResourceFile(source, resourceName);
 
-        if (optional.isPresent()) {
-            return Optional.of(YamlConfiguration.loadConfiguration(optional.get()));
-        } else {
-            return Optional.empty();
-        }
+        return optional.map(YamlConfiguration::loadConfiguration);
     }
 
     @SneakyThrows
@@ -99,7 +95,7 @@ public class Utils {
 
     public static void giveRewardAndNotify(SimpleChatGames plugin, Player player, GameData gameData, String timeTook) {
         FileConfiguration config = plugin.getConfig();
-        SchedulerUtils.oneTickDelay(() -> {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Bukkit.broadcastMessage(Formatting.translate(gameData.getGameConfig().getString("messages.end.won").replace("%time%", timeTook.toString()).replace("%player_name%", player.getName())));
             if (plugin.isVaultPresent() && !(config.get("rewards.economy") instanceof String)) {
                 plugin.getEconomy().depositPlayer(player, config.getDouble("rewards.economy"));
@@ -113,7 +109,7 @@ public class Utils {
                 player.getInventory().addItem(itemStack);
                 player.sendMessage(plugin.getMessageConfig().getString("item-given").replace("%item_count%", String.valueOf(itemStack.getAmount())).replace("%item_name%", itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : WordUtils.getNiceName(itemStack.getType().toString())));
             }
-        });
+        }, 5);
 
     }
 

@@ -20,7 +20,7 @@ public class SkipCommand extends SimpleCommandHandler {
         sender.sendMessage(plugin.getMessageConfig().getString("skip-game"));
         try {
             plugin.getGameManager().getActiveGame().end();
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException ignored) {
 
         }
         plugin.getGameManager().startRandomGame();
