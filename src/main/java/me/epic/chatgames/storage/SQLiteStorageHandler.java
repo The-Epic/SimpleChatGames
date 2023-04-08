@@ -10,18 +10,30 @@ import org.bukkit.OfflinePlayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.sql.Statement;
+import java.util.*;
 
 public class SQLiteStorageHandler implements StorageHandler {
     private Connection connection;
+    private final Map<UUID, Integer> dataMap = new HashMap<>();
 
     public SQLiteStorageHandler() {
         SQliteConnectionPool connectionPool = new SQliteConnectionPool("SimpleChatGames", "data", SimpleChatGames.getPlugin().getDataFolder());
         this.connection = connectionPool.getConnection();
 
         createTable();
+        loadData();
+    }
+
+    @SneakyThrows
+    private void loadData() {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid, data FROM player_data");
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            UUID uuid = UUID.fromString(rs.getString("uuid"));
+            int data = rs.getInt("data");
+            dataMap.put(uuid, data);
+        }
     }
 
     @SneakyThrows
@@ -61,23 +73,21 @@ public class SQLiteStorageHandler implements StorageHandler {
         preparedStatement.setString(1, uuid.toString());
         preparedStatement.setInt(2, data);
         preparedStatement.executeUpdate();
+        dataMap.put(uuid, data);
     }
 
     @Override
-    @SneakyThrows
     public List<PlayerData> getTopPlayerData(int start, int count) {
         List<PlayerData> topPlayerData = new ArrayList<>();
-        String sql = "SELECT uuid, data FROM player_data ORDER BY data DESC LIMIT ?, ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, start);
-        preparedStatement.setInt(2, count);
-        ResultSet rs = preparedStatement.executeQuery();
-        while (rs.next()) {
-            OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(rs.getString("uuid")));
-            int data = rs.getInt("data");
+        List<Map.Entry<UUID, Integer>> sortedEntries = new ArrayList<>(dataMap.entrySet());
+        sortedEntries.sort(Collections.reverseOrder(Map.Entry.comparingByValue()));
+        int endIndex = Math.min(start + count, sortedEntries.size());
+        for (int i = start; i < endIndex; i++) {
+            Map.Entry<UUID, Integer> entry = sortedEntries.get(i);
+            OfflinePlayer player = Bukkit.getOfflinePlayer(entry.getKey());
+            int data = entry.getValue();
             topPlayerData.add(new PlayerData(player, data));
         }
-
         return topPlayerData;
     }
 
