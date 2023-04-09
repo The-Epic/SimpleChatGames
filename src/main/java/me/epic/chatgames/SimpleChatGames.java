@@ -123,6 +123,7 @@ public final class SimpleChatGames extends JavaPlugin {
         metrics.addCustomChart(new SimplePie("online_mode", ServerUtils::getMode));
     }
 
+    //The jankiest way for me to not update config updater
     public void updateConfig() {
         try {
             ConfigurationSection rewards = getConfig().getConfigurationSection("rewards");
