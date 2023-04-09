@@ -18,19 +18,19 @@ public class AsyncStorageHandler {
         this.delegate = delegate;
     }
 
-    Integer getPlayerData(OfflinePlayer player) {
+    public Integer getPlayerData(OfflinePlayer player) {
         return delegate.getPlayerData(player);
     }
 
-    CompletableFuture<Void> incrementPlayerData(OfflinePlayer player) {
-        return CompletableFuture.runAsync(() -> delegate.incrementPlayerData(player), executor);
+    public void incrementPlayerData(OfflinePlayer player) {
+        CompletableFuture.runAsync(() -> delegate.incrementPlayerData(player), executor);
     }
 
-    CompletableFuture<List<PlayerData>> getTopPlayerData(int start, int count) {
-        return CompletableFuture.supplyAsync(() -> delegate.getTopPlayerData(start, count), executor);
+    public List<PlayerData> getTopPlayerData(int start, int count) {
+        return delegate.getTopPlayerData(start, count);
     }
 
-    CompletableFuture<PlayerData> getPlayerDataAtPosition(int position) {
-        return CompletableFuture.supplyAsync(() -> delegate.getPlayerDataAtPosition(position), executor);
+    public PlayerData getPlayerDataAtPosition(int position) {
+        return delegate.getPlayerDataAtPosition(position);
     }
 }
