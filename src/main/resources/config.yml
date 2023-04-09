@@ -14,7 +14,14 @@ storage:
   #Valid storage types:
   # - json
   # - sqlite
+  # - mysql
   type: "json"
+  mysql:
+    db-name: simplechatgames
+    ip: 127.0.0.1
+    port: '3306'
+    username: simplechatgames
+    password: simplechatgames
 
 games:
   interval: 5 # Minutes

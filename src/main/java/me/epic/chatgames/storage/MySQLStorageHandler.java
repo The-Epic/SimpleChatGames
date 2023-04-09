@@ -1,22 +1,27 @@
 package me.epic.chatgames.storage;
 
+import lombok.Cleanup;
 import lombok.SneakyThrows;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.utils.PlayerData;
+import me.epic.spigotlib.storage.MySQLConnectionPool;
 import me.epic.spigotlib.storage.SQliteConnectionPool;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
-public class SQLiteStorageHandler implements StorageHandler {
-    private final Connection connection;
+public class MySQLStorageHandler implements StorageHandler {
+
+    private final MySQLConnectionPool connectionPool;
     private final Map<UUID, Integer> dataMap = new HashMap<>();
 
-    public SQLiteStorageHandler() {
-        SQliteConnectionPool connectionPool = new SQliteConnectionPool("SimpleChatGames", "data", SimpleChatGames.getPlugin().getDataFolder());
-        this.connection = connectionPool.getConnection();
+    public MySQLStorageHandler(String dbName, String ip, String port, String username, String password) {
+        connectionPool = new MySQLConnectionPool("SimpleChatGames", dbName, ip, port, username, password);
 
         createTable();
         loadData();
@@ -25,7 +30,7 @@ public class SQLiteStorageHandler implements StorageHandler {
     private void loadData() {
         Bukkit.getScheduler().runTaskAsynchronously(SimpleChatGames.getPlugin(), () -> {
             try {
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid, data FROM player_data");
+                @Cleanup PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement("SELECT uuid, data FROM player_data");
                 ResultSet rs = preparedStatement.executeQuery();
                 while (rs.next()) {
                     UUID uuid = UUID.fromString(rs.getString("uuid"));
@@ -45,7 +50,7 @@ public class SQLiteStorageHandler implements StorageHandler {
                 "uuid VARCHAR(36) PRIMARY KEY," +
                 "data INTEGER" +
                 ");";
-        PreparedStatement statement = connection.prepareStatement(sql);
+        @Cleanup PreparedStatement statement = connectionPool.getConnection().prepareStatement(sql);
         statement.executeUpdate();
     }
 
@@ -64,7 +69,7 @@ public class SQLiteStorageHandler implements StorageHandler {
         int data = getPlayerData(player) + 1;
         String sql = "INSERT INTO player_data (uuid, data) VALUES (?, ?)" +
                 "ON CONFLICT(uuid) DO UPDATE SET data = data + 1";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        @Cleanup PreparedStatement preparedStatement = connectionPool.getConnection().prepareStatement(sql);
         preparedStatement.setString(1, uuid.toString());
         preparedStatement.setInt(2, data);
         preparedStatement.executeUpdate();
