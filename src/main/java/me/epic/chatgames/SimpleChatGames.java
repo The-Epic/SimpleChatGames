@@ -141,7 +141,7 @@ public final class SimpleChatGames extends JavaPlugin {
                 rewards.set("economy", "");
                 rewards.set("economy.enabled", false);
                 rewards.set("economy.value", 0);
-            } else {
+            } else if (!rewards.isConfigurationSection("economy")){
                 double oldValue = rewards.getDouble("economy");
                 rewards.set("economy", "");
                 rewards.set("economy.enabled", true);
