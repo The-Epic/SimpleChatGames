@@ -14,6 +14,7 @@ storage:
   #Valid storage types:
   # - json
   # - sqlite
+  # - mysql
   type: "json"
   mysql:
     db-name: simplechatgames
