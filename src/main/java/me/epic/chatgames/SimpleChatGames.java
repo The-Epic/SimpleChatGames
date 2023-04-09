@@ -55,14 +55,6 @@ public final class SimpleChatGames extends JavaPlugin {
         PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
 
         com.tchristofferson.configupdater.ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"), List.of("rewards"));
-//        if (!getConfig().getString("rewards.item").equals("disabled") && !getConfig().isConfigurationSection("rewards.item")) {
-//            System.out.println("pasing if");
-//            ItemStack toConvert = ItemSerializer.itemStackFromBase64(getConfig().getString("rewards.item"));
-//            System.out.println(toConvert);
-//            ItemFactory.DEFAULT.write(toConvert, getConfig().createSection("rewards.item.value"));
-//            saveConfig();
-//            reloadConfig();
-//        }
         updateConfig();
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
