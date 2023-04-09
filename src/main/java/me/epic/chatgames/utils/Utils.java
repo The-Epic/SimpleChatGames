@@ -1,6 +1,7 @@
 package me.epic.chatgames.utils;
 
 import lombok.SneakyThrows;
+import me.epic.betteritemconfig.ItemFactory;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.spigotlib.config.ConfigUpdater;
@@ -97,20 +98,20 @@ public class Utils {
         FileConfiguration config = plugin.getConfig();
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Bukkit.broadcastMessage(Formatting.translate(gameData.getGameConfig().getString("messages.end.won").replace("%time%", timeTook.toString()).replace("%player_name%", player.getName())));
-            if (plugin.isVaultPresent() && !(config.get("rewards.economy") instanceof String)) {
-                plugin.getEconomy().depositPlayer(player, config.getDouble("rewards.economy"));
-                player.sendMessage(plugin.getMessageConfig().getString("money-given").replace("%amount%", config.getString("rewards.economy")));
+            if (config.getBoolean("rewards.economy.enabled") && plugin.isVaultPresent()) {
+                double economyReward = config.getDouble("rewards.economy.value");
+                plugin.getEconomy().depositPlayer(player, economyReward);
+                player.sendMessage(plugin.getMessageConfig().getString("money-given").replace("%amount%", String.valueOf(economyReward)));
             }
-            if (!config.getString("rewards.command").equals("disabled")) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), config.getString("rewards.command").replace("%player_name%", player.getName()));
+            if (config.getBoolean("rewards.command.enabled")) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), config.getString("rewards.command.value").replace("%player_name%", player.getName()));
             }
-            if (!config.getString("rewards.item").equals("disabled")) {
-                ItemStack itemStack = ItemSerializer.itemStackFromBase64(config.getString("rewards.item"));
+            if (config.getBoolean("rewards.item.enabled")) {
+                ItemStack itemStack = ItemFactory.DEFAULT.read(config.getConfigurationSection("rewards.item.value"));
                 player.getInventory().addItem(itemStack);
                 player.sendMessage(plugin.getMessageConfig().getString("item-given").replace("%item_count%", String.valueOf(itemStack.getAmount())).replace("%item_name%", itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : WordUtils.getNiceName(itemStack.getType().toString())));
             }
         }, 5);
-
     }
 
     public static String formatListAnswers(List<String> answers) {

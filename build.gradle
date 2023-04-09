@@ -37,7 +37,8 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     implementation 'org.bstats:bstats-bukkit:3.0.0'
     compileOnly 'me.clip:placeholderapi:2.11.2'
-    implementation 'me.epic:betteritemconfig:2.0.0-SNAPSHOT'
+    implementation 'me.epic:betteritemconfig:2.0.1-SNAPSHOT'
+    implementation "com.tchristofferson:ConfigUpdater:+"
 }
 
 

@@ -1,6 +1,7 @@
 package me.epic.chatgames;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import me.epic.betteritemconfig.ItemFactory;
 import me.epic.chatgames.commands.CommandHandler;
 import me.epic.chatgames.games.GameManager;
@@ -17,12 +18,15 @@ import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class SimpleChatGames extends JavaPlugin {
@@ -37,6 +41,7 @@ public final class SimpleChatGames extends JavaPlugin {
 
 
     @Override
+    @SneakyThrows
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
@@ -49,14 +54,16 @@ public final class SimpleChatGames extends JavaPlugin {
         gameManager.loadGames();
         PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
 
-        if (!getConfig().getString("item", "disabled").equals("disable")) {
-            ItemStack toConvert = ItemSerializer.itemStackFromBase64(getConfig().getString("rewards.item"));
-            ItemFactory.DEFAULT.write(toConvert, getConfig(), "rewards.item");
-            saveConfig();
-            reloadConfig();
-        }
-        ConfigUpdater.runConfigUpdater(this);
-
+        com.tchristofferson.configupdater.ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"), List.of("rewards"));
+//        if (!getConfig().getString("rewards.item").equals("disabled") && !getConfig().isConfigurationSection("rewards.item")) {
+//            System.out.println("pasing if");
+//            ItemStack toConvert = ItemSerializer.itemStackFromBase64(getConfig().getString("rewards.item"));
+//            System.out.println(toConvert);
+//            ItemFactory.DEFAULT.write(toConvert, getConfig().createSection("rewards.item.value"));
+//            saveConfig();
+//            reloadConfig();
+//        }
+        updateConfig();
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             getLogger().info("Vault found, registering compatibility.");
@@ -116,4 +123,44 @@ public final class SimpleChatGames extends JavaPlugin {
         metrics.addCustomChart(new SimplePie("online_mode", ServerUtils::getMode));
     }
 
+    public void updateConfig() {
+        try {
+            ConfigurationSection rewards = getConfig().getConfigurationSection("rewards");
+            assert rewards != null;
+            if (!rewards.isConfigurationSection("command") && rewards.getString("command", "disabled").equals("disabled")) {
+                rewards.set("command", "");
+                rewards.set("command.enabled", false);
+                rewards.set("command.value", "nocommand");
+            } else if (!rewards.isConfigurationSection("command")) {
+                String oldCommand = rewards.getString("command");
+                rewards.set("command", "");
+                rewards.set("command.enabled", true);
+                rewards.set("command.value", oldCommand);
+            }
+            if (rewards.isString("economy") && rewards.getString("economy").equals("disabled")) {
+                rewards.set("economy", "");
+                rewards.set("economy.enabled", false);
+                rewards.set("economy.value", 0);
+            } else {
+                double oldValue = rewards.getDouble("economy");
+                rewards.set("economy", "");
+                rewards.set("economy.enabled", true);
+                rewards.set("economy.value", oldValue);
+            }
+            if (!rewards.isConfigurationSection("item") && rewards.getString("item", "disabled").equals("disabled")) {
+                rewards.set("item", "");
+                rewards.set("item.enabled", false);
+                rewards.set("item.value", "");
+            } else if (!rewards.isConfigurationSection("item")) {
+                String b64Item = rewards.getString("item");
+                rewards.set("item", "");
+                rewards.set("item.enabled", true);
+                ItemStack item = ItemSerializer.itemStackFromBase64(b64Item);
+                ItemFactory.DEFAULT.write(item, getConfig(), "rewards.item.value");
+                //rewards.set("item.value", oldValue);
+            }
+        } finally {
+            saveConfig();
+        }
+    }
 }

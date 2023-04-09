@@ -30,6 +30,12 @@ games:
 
 
 rewards:
-  item: disabled
-  economy: disabled
-  command: disabled
+  item:
+    enabled: false
+    value: empty
+  economy:
+    enabled: false
+    value: 0
+  command:
+    enabled: false
+    value: 0
