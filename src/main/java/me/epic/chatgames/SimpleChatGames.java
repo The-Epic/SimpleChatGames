@@ -1,6 +1,7 @@
 package me.epic.chatgames;
 
 import lombok.Getter;
+import me.epic.betteritemconfig.ItemFactory;
 import me.epic.chatgames.commands.CommandHandler;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.placeholderapi.SimpleChatGamesExpansion;
@@ -9,12 +10,14 @@ import me.epic.spigotlib.UpdateChecker;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
 import me.epic.spigotlib.language.MessageConfig;
+import me.epic.spigotlib.serialisation.ItemSerializer;
 import me.epic.spigotlib.utils.FileUtils;
 import me.epic.spigotlib.utils.ServerUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -39,13 +42,21 @@ public final class SimpleChatGames extends JavaPlugin {
         plugin = this;
         new UpdateChecker(this, 108655).runUpdateChecker(getConfig().getInt("update-checker.interval"), "https://www.spigotmc.org/resources/simplechatgames.108655/", getConfig().getBoolean("update-checker.enabled"));
         loadBstats();
-        ConfigUpdater.runConfigUpdater(this);
         reload();
         ConfigUpdater.update(this, "messages.yml", new File(getDataFolder(), "messages.yml"));
         getCommand("simplechatgames").setExecutor(new CommandHandler(this));
         gameManager = new GameManager(this);
         gameManager.loadGames();
         PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
+
+        if (!getConfig().getString("item", "disabled").equals("disable")) {
+            ItemStack toConvert = ItemSerializer.itemStackFromBase64(getConfig().getString("rewards.item"));
+            ItemFactory.DEFAULT.write(toConvert, getConfig(), "rewards.item");
+            saveConfig();
+            reloadConfig();
+        }
+        ConfigUpdater.runConfigUpdater(this);
+
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             getLogger().info("Vault found, registering compatibility.");
