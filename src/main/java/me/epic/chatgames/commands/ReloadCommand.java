@@ -13,17 +13,17 @@ public class ReloadCommand extends SimpleCommandHandler {
     private final SimpleChatGames plugin;
 
     public ReloadCommand(SimpleChatGames plugin) {
-        super("simplechatgames.command.reload");
+        super("simplechatgames.command.reload", null);
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public void handleCommand(CommandSender sender, String[] args) {
         Timings.startTimings("plugin-reload");
         plugin.reload();
         plugin.getGameManager().loadGames();
         String timeTook = Timings.endTimingsString("plugin-reload");
         sender.sendMessage(Formatting.translate("<green>Plugin reloaded in " + timeTook + "ms"));
-        return true;
     }
+
 }

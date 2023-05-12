@@ -11,12 +11,12 @@ public class SkipCommand extends SimpleCommandHandler {
     private final SimpleChatGames plugin;
     
     public SkipCommand(SimpleChatGames plugin) {
-        super("simplechatgames.command.skip");
+        super("simplechatgames.command.skip", null);
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public void handleCommand(CommandSender sender, String[] strings) {
         sender.sendMessage(plugin.getMessageConfig().getString("skip-game"));
         try {
             plugin.getGameManager().getActiveGame().end();
@@ -24,6 +24,6 @@ public class SkipCommand extends SimpleCommandHandler {
 
         }
         plugin.getGameManager().startRandomGame();
-        return true;
     }
+
 }

@@ -6,7 +6,7 @@ import me.epic.spigotlib.commands.ArgumentCommandHandler;
 public class CommandHandler extends ArgumentCommandHandler {
 
     public CommandHandler(SimpleChatGames plugin) {
-        super(plugin.getMessageConfig(), "simplechatgames.command");
+        super(plugin.getMessageConfig(), "simplechatgames.command", null);
 
         LeaderboardCommand leaderboardCommand = new LeaderboardCommand(plugin);
         SkipCommand skipCommand = new SkipCommand(plugin);

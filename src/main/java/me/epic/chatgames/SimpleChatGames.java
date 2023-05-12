@@ -45,6 +45,7 @@ public final class SimpleChatGames extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+        saveDefaultConfig();
         new UpdateChecker(this, 108655).runUpdateChecker(getConfig().getInt("update-checker.interval"), "https://www.spigotmc.org/resources/simplechatgames.108655/", getConfig().getBoolean("update-checker.enabled"));
         loadBstats();
         reload();
@@ -54,7 +55,6 @@ public final class SimpleChatGames extends JavaPlugin {
         gameManager.loadGames();
         PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
 
-        com.tchristofferson.configupdater.ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"), List.of("rewards"));
         updateConfig();
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {

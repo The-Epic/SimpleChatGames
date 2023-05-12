@@ -14,19 +14,19 @@ public class LeaderboardCommand extends SimpleCommandHandler {
     private final SimpleChatGames plugin;
 
     public LeaderboardCommand(SimpleChatGames plugin) {
-        super("simplechatgames.command.leaderboard");
+        super("simplechatgames.command.leaderboard", null);
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public void handleCommand(CommandSender sender, String[] args) {
         int page = args.length == 1 ? 1 : Integer.parseInt(args[1]);
         sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-message").replace("%number%", String.valueOf(page)));
         int count = 10 * page;
         for (PlayerData data : PlayerDataUtils.getTopPlayerData(count - 10 , count)) {
             sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-line").replace("%player_name%", data.getPlayerName()).replace("%wins%", String.valueOf(data.getGamesWon())));
         }
-        return true;
+        return;
     }
 
 }

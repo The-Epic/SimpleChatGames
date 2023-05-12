@@ -71,7 +71,6 @@ public class Utils {
                     if (plugin.getDataFolder().exists() && !(file.exists())) {
                         consumer.accept(name);
                     }
-                    if (file.exists()) ConfigUpdater.update(plugin, name, file);
                 }
             }
         }

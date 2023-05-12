@@ -23,16 +23,16 @@ public class RewardCommand extends SimpleCommandHandler {
     private final SimpleChatGames plugin;
 
     public RewardCommand(SimpleChatGames plugin) {
-        super("simplechatgames.command.reward");
+        super("simplechatgames.command.reward", null);
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public void handleCommand(CommandSender sender, String[] args) {
         FileConfiguration config = plugin.getConfig();
         if (!(sender instanceof Player player)) {
             sender.sendMessage("This command is for players only!");
-            return true;
+            return;
         }
         switch (args[0]) {
             case "set" -> {
@@ -94,7 +94,7 @@ public class RewardCommand extends SimpleCommandHandler {
             }
             default -> player.sendMessage("Invalid command arguments, use /cg reward <set|clear|disable>");
         }
-        return true;
+        return;
     }
 
     @Override
