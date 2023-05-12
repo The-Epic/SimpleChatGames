@@ -98,12 +98,12 @@ public class RewardCommand extends SimpleCommandHandler {
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+    public List<String> handleTabCompletion(CommandSender sender, String[] args) {
         switch (args.length) {
-            case 2 -> {
+            case 1 -> {
                 return StringUtil.copyPartialMatches(args[0], List.of("set", "clear", "disable"), new ArrayList<>());
             }
-            case 3 -> {
+            case 2 -> {
                 switch (args[0]) {
                     case "set", "disable" -> {
                         return StringUtil.copyPartialMatches(args[1], List.of("economy", "item", "command"), new ArrayList<>());
