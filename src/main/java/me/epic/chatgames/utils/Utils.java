@@ -29,6 +29,11 @@ import java.util.jar.JarFile;
 
 public class Utils {
     private static boolean ran = false;
+    private static ItemStack rewardStack;
+
+    public static void init() {
+        rewardStack = ItemFactory.DEFAULT.read(SimpleChatGames.getPlugin().getConfig().getConfigurationSection("rewards.item.value"));
+    }
 
     public static Optional<File> loadResourceFile(Plugin source, String resourceName) {
         File resourceFile = new File(source.getDataFolder() + File.separator + "games", resourceName);
@@ -106,9 +111,8 @@ public class Utils {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), config.getString("rewards.command.value").replace("%player_name%", player.getName()));
             }
             if (config.getBoolean("rewards.item.enabled")) {
-                ItemStack itemStack = ItemFactory.DEFAULT.read(config.getConfigurationSection("rewards.item.value"));
-                player.getInventory().addItem(itemStack);
-                player.sendMessage(plugin.getMessageConfig().getString("item-given").replace("%item_count%", String.valueOf(itemStack.getAmount())).replace("%item_name%", itemStack.getItemMeta().hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : WordUtils.getNiceName(itemStack.getType().toString())));
+                player.getInventory().addItem(rewardStack);
+                player.sendMessage(plugin.getMessageConfig().getString("item-given").replace("%item_count%", String.valueOf(rewardStack.getAmount())).replace("%item_name%", rewardStack.getItemMeta().hasDisplayName() ? rewardStack.getItemMeta().getDisplayName() : WordUtils.getNiceName(rewardStack.getType().toString())));
             }
         }, 5);
     }

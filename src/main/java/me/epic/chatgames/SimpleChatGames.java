@@ -7,6 +7,7 @@ import me.epic.chatgames.commands.CommandHandler;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.placeholderapi.SimpleChatGamesExpansion;
 import me.epic.chatgames.utils.PlayerDataUtils;
+import me.epic.chatgames.utils.Utils;
 import me.epic.spigotlib.UpdateChecker;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
@@ -56,6 +57,7 @@ public final class SimpleChatGames extends JavaPlugin {
         PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
 
         updateConfig();
+        Utils.init();
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             getLogger().info("Vault found, registering compatibility.");

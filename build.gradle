@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'me.epic'
-version = '1.0.8'
+version = '1.0.9'
 
 java {
     toolchain {
@@ -15,7 +15,6 @@ java {
 
 repositories {
     mavenCentral()
-    mavenLocal()
     maven {
         url "https://repo.epicebic.xyz/public"
     }
@@ -25,6 +24,9 @@ repositories {
     }
     maven { url 'https://jitpack.io' }
     maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
 }
 
 dependencies {
@@ -37,7 +39,7 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     implementation 'org.bstats:bstats-bukkit:3.0.0'
     compileOnly 'me.clip:placeholderapi:2.11.2'
-    implementation 'me.epic:betteritemconfig:2.0.1-SNAPSHOT'
+    implementation 'me.epic:betteritemconfig:2.0.2-SNAPSHOT'
     implementation "com.tchristofferson:ConfigUpdater:+"
 }
 
