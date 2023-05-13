@@ -26,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -57,7 +58,6 @@ public final class SimpleChatGames extends JavaPlugin {
         PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
 
         updateConfig();
-        Utils.init();
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             getLogger().info("Vault found, registering compatibility.");
@@ -80,6 +80,7 @@ public final class SimpleChatGames extends JavaPlugin {
     public void reload() {
         if (mainGameTask != null) mainGameTask.cancel();
         reloadConfig();
+        Utils.init();
         debugMode = getConfig().getBoolean("debug", false);
         int delay = 20 * 60 * getConfig().getInt("games.interval");
         int interval = delay;
@@ -120,6 +121,7 @@ public final class SimpleChatGames extends JavaPlugin {
     //The jankiest way for me to not update config updater
     public void updateConfig() {
         try {
+            // Rewards updating
             ConfigurationSection rewards = getConfig().getConfigurationSection("rewards");
             assert rewards != null;
             if (!rewards.isConfigurationSection("command") && rewards.getString("command", "disabled").equals("disabled")) {
@@ -152,7 +154,13 @@ public final class SimpleChatGames extends JavaPlugin {
                 rewards.set("item.enabled", true);
                 ItemStack item = ItemSerializer.itemStackFromBase64(b64Item);
                 ItemFactory.DEFAULT.write(item, getConfig(), "rewards.item.value");
-                //rewards.set("item.value", oldValue);
+            }
+
+            // Rewards p2 -- commands being a list instead
+            if (rewards.isString("command.value") || rewards.isInt("command.value")) {
+                List<String> commandRewards = new ArrayList<>();
+                if (rewards.isString("command.value")) commandRewards.add(rewards.getString("command.value"));
+                rewards.set("command.value", commandRewards);
             }
         } finally {
             saveConfig();

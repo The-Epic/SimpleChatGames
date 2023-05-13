@@ -2,6 +2,7 @@ package me.epic.chatgames.commands;
 
 import me.epic.betteritemconfig.ItemFactory;
 import me.epic.chatgames.SimpleChatGames;
+import me.epic.chatgames.utils.Utils;
 import me.epic.spigotlib.commands.SimpleCommandHandler;
 import me.epic.spigotlib.formatting.Formatting;
 import me.epic.spigotlib.serialisation.ItemSerializer;
@@ -43,21 +44,24 @@ public class RewardCommand extends SimpleCommandHandler {
                             plugin.saveConfig();
                             plugin.reloadConfig();
                             player.sendMessage(Formatting.translate("<green>Item added!"));
+                            Utils.init();
                         } else {
-                            player.sendMessage("Item rewards are currently disabled.");
+                            player.sendMessage(Formatting.translate("<red>" + "Item rewards are currently disabled."));
                         }
                     }
                     case "command" -> {
                         if (config.getBoolean("rewards.command.enabled")) {
+                            List<String> currentCommands = config.getStringList("rewards.command.value");
                             StringJoiner joiner = new StringJoiner(" ");
                             for (int i = 2; i < args.length; i++) {
                                 joiner.add(args[i]);
                             }
-                            config.set("rewards.command.value", joiner.toString());
+                            currentCommands.add(joiner.toString());
+                            config.set("rewards.command.value", currentCommands);
                             plugin.saveConfig();
                             player.sendMessage(Formatting.translate("<green>Command added!"));
                         } else {
-                            player.sendMessage("Command rewards are currently disabled.");
+                            player.sendMessage(Formatting.translate("<red>" + "Command rewards are currently disabled."));
                         }
                     }
                     case "economy" -> {
@@ -67,7 +71,7 @@ public class RewardCommand extends SimpleCommandHandler {
                             plugin.saveConfig();
                             player.sendMessage(Formatting.translate("<green>Money added!"));
                         } else {
-                            player.sendMessage("Economy rewards are currently disabled.");
+                            player.sendMessage(Formatting.translate("<red>" + "Economy rewards are currently disabled."));
                         }
                     }
                     default -> player.sendMessage("Invalid command arguments, use /cg reward set <item|command|economy>");
@@ -85,11 +89,19 @@ public class RewardCommand extends SimpleCommandHandler {
             case "disable" -> {
                 if (config.isSet("rewards." + args[1] + ".enabled")) {
                     config.set("rewards." + args[1] + ".enabled", false);
-                    config.set("rewards." + args[1] + ".value", 0);
                     plugin.saveConfig();
+                    plugin.reloadConfig();
                     player.sendMessage(Formatting.translate("<green>" + WordUtils.capitalize(args[1]) + " rewards disabled!"));
                 } else {
                     player.sendMessage(Formatting.translate("<red>" + WordUtils.capitalize(args[1]) + " rewards not found."));
+                }
+            }
+            case "enable" -> {
+                if (args[1].equalsIgnoreCase("item") || args[1].equalsIgnoreCase("economy") || args[1].equalsIgnoreCase("command")) {
+                    config.set("rewards." + args[1] + ".enabled", true);
+                    plugin.saveConfig();
+                    plugin.reloadConfig();
+                    player.sendMessage(Formatting.translate("<green>" + WordUtils.capitalize(args[1]) + " rewards enabled!"));
                 }
             }
             default -> player.sendMessage("Invalid command arguments, use /cg reward <set|clear|disable>");
@@ -101,11 +113,11 @@ public class RewardCommand extends SimpleCommandHandler {
     public List<String> handleTabCompletion(CommandSender sender, String[] args) {
         switch (args.length) {
             case 1 -> {
-                return StringUtil.copyPartialMatches(args[0], List.of("set", "clear", "disable"), new ArrayList<>());
+                return StringUtil.copyPartialMatches(args[0], List.of("set", "clear", "disable", "enable"), new ArrayList<>());
             }
             case 2 -> {
                 switch (args[0]) {
-                    case "set", "disable" -> {
+                    case "set", "disable", "enable" -> {
                         return StringUtil.copyPartialMatches(args[1], List.of("economy", "item", "command"), new ArrayList<>());
                     }
                     default -> {

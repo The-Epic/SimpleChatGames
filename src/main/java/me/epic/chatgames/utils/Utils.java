@@ -32,7 +32,10 @@ public class Utils {
     private static ItemStack rewardStack;
 
     public static void init() {
-        rewardStack = ItemFactory.DEFAULT.read(SimpleChatGames.getPlugin().getConfig().getConfigurationSection("rewards.item.value"));
+        SimpleChatGames plugin = SimpleChatGames.getPlugin();
+        if (plugin.getConfig().getBoolean("rewards.item.enabled") && !plugin.getConfig().getString("rewards.item.value", "empty").equals("empty")) {
+            rewardStack = ItemFactory.DEFAULT.read(plugin.getConfig().getConfigurationSection("rewards.item.value"));
+        }
     }
 
     public static Optional<File> loadResourceFile(Plugin source, String resourceName) {
@@ -107,8 +110,9 @@ public class Utils {
                 plugin.getEconomy().depositPlayer(player, economyReward);
                 player.sendMessage(plugin.getMessageConfig().getString("money-given").replace("%amount%", String.valueOf(economyReward)));
             }
-            if (config.getBoolean("rewards.command.enabled")) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), config.getString("rewards.command.value").replace("%player_name%", player.getName()));
+            if (config.getBoolean("rewards.command.enabled")&& !plugin.getConfig().getString("rewards.item.value", "empty").equals("empty")) {
+                List<String> commands = config.getStringList("rewards.command.value");
+                commands.forEach(cmd -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player_name%", player.getName())));
             }
             if (config.getBoolean("rewards.item.enabled")) {
                 player.getInventory().addItem(rewardStack);
