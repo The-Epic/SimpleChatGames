@@ -12,7 +12,7 @@ public class UnscrambleGameData extends GameData {
     }
 
     @Override
-    public ChatGame createGame(GameManager manager) {
+    public ChatGame<UnscrambleGameData> createGame(GameManager manager) {
         return new UnscrambleGame(this, manager);
     }
 }

@@ -13,27 +13,35 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TriviaGame extends ChatGame<TriviaGameData> {
     private List<String> answers = new ArrayList<>();
     private final YamlConfiguration gameConfig = gameData.getGameConfig();
+    private final List<Map<String, List<String>>> mapList;
 
     public TriviaGame(TriviaGameData data, GameManager manager) {
         super(data.getDuration(), manager, data);
+        mapList = Utils.fixList(gameConfig.getMapList("questions"));
     }
 
     @Override
     protected void start() {
         super.start();
 
-        List<String> questions = new ArrayList<>(gameConfig.getConfigurationSection("questions").getKeys(false));
+        List<String> questions = mapList.stream().map(map -> map.get("question").get(0)).toList();
         String question = questions.get(ThreadLocalRandom.current().nextInt(questions.size()));
-        answers = gameConfig.getStringList("questions." + question + ".answers");
+        for (Map<String, List<String>> map : mapList) {
+            if (map.get("question").get(0).equals(question)) {
+                answers = map.get("answers").stream().map(String::trim).toList();
+                break;
+            }
+        }
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%question%", question)));
         if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
             if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + Utils.formatListAnswers(answers));
+                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + Utils.formatListAnswers(answers.stream().map(String.class::cast).toList()));
             }
         });
         Timings.startTimings("trivia-chatgame");
@@ -53,17 +61,19 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
     protected void end(boolean timeout) {
         super.end(timeout);
         if (timeout) {
-            Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%answers%", "<yellow>" + Utils.formatListAnswers(answers))));
+            Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%answers%", Utils.formatListAnswers(answers))));
         }
         answers = new ArrayList<>();
     }
 
     @Override
     public void handleChat(AsyncPlayerChatEvent event) {
-        if (answers.contains(event.getMessage().toLowerCase())) {
-            win(event.getPlayer());
+        String playerMessage = event.getMessage();
+        for (String possibleAnswer : answers) {
+            if (possibleAnswer.equalsIgnoreCase(playerMessage)) {
+                win(event.getPlayer());
+                break;
+            }
         }
     }
-
-
 }

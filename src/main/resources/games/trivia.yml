@@ -4,7 +4,7 @@ messages:
   start: "<green>Solve <white>%question%</white><green> to win a prize!"
   end:
     won: "<green><bold>!</bold> <white>%player_name%</white> has won the round in <yellow>%time%<yellow> <white>seconds</white>!"
-    timed-out: "<green><bold>!</bold> No one won that round, the answer was %answers%"
+    timed-out: "<green><bold>!</bold> No one won that round, the answer was <yellow>%answers%"
 
 questions:
   What is the name of the block used to craft torches?:

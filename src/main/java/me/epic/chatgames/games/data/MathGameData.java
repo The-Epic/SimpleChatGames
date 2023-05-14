@@ -12,7 +12,7 @@ public class MathGameData extends GameData {
     }
 
     @Override
-    public ChatGame createGame(GameManager manager) {
+    public ChatGame<MathGameData> createGame(GameManager manager) {
         return new MathGame(this, manager);
     }
 }

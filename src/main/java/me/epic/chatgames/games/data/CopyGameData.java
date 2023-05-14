@@ -12,7 +12,7 @@ public class CopyGameData extends GameData {
     }
 
     @Override
-    public ChatGame createGame(GameManager manager) {
+    public ChatGame<CopyGameData> createGame(GameManager manager) {
         return new CopyGame(this, manager);
     }
 }

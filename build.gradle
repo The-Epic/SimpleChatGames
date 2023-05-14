@@ -40,7 +40,6 @@ dependencies {
     implementation 'org.bstats:bstats-bukkit:3.0.0'
     compileOnly 'me.clip:placeholderapi:2.11.2'
     implementation 'me.epic:betteritemconfig:2.0.2-SNAPSHOT'
-    implementation "com.tchristofferson:ConfigUpdater:+"
 }
 
 

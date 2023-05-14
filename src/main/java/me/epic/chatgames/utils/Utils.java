@@ -12,6 +12,7 @@ import me.epic.spigotlib.utils.SchedulerUtils;
 import me.epic.spigotlib.utils.StringUtils;
 import me.epic.spigotlib.utils.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -133,5 +135,53 @@ public class Utils {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(minutes);
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public static List<Map<String, List<String>>> fixList(List<Map<?, ?>> originalList) {
+        List<Map<String, List<String>>> convertedList = new ArrayList<>();
+
+        for (Map<?, ?> originalMap : originalList) {
+            Map<String, List<String>> convertedMap = new HashMap<>();
+
+            for (Map.Entry<?, ?> entry : originalMap.entrySet()) {
+                String key = entry.getKey().toString();
+                List<String> value = entry.getValue() instanceof List<?> ? (List<String>) entry.getValue() : Collections.singletonList(entry.getValue().toString());
+
+                convertedMap.put(key, value);
+            }
+
+            convertedList.add(convertedMap);
+        }
+
+        return convertedList;
+    }
+
+    public static YamlConfiguration updateQuestions(YamlConfiguration config, String fileName) {
+        if (config.isConfigurationSection("questions")) {
+            File file = new File(new File(SimpleChatGames.getPlugin().getDataFolder() + "\\games"), fileName);
+            List<Map<String, Object>> mapList = new ArrayList<>();
+            ConfigurationSection questionsSection = config.getConfigurationSection("questions");
+
+            for (String questionKey : questionsSection.getKeys(false)) {
+                ConfigurationSection questionSection = questionsSection.getConfigurationSection(questionKey);
+                List<String> answers = questionSection.getStringList("answers");
+
+                Map<String, Object> questionMap = new LinkedHashMap<>();
+                questionMap.put("question", questionKey);
+                questionMap.put("answers", answers);
+
+                mapList.add(questionMap);
+            }
+
+            config.set("questions", mapList);
+
+            System.out.println(SimpleChatGames.getPlugin().getDataFolder());
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return config;
     }
 }

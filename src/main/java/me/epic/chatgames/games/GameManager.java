@@ -28,7 +28,7 @@ public class GameManager implements Listener {
     public void loadGames() {
         games.clear();
         Utils.loadResource(plugin, "unscramble.yml").ifPresent(config -> registerGame(new UnscrambleGameData(config)));
-        Utils.loadResource(plugin, "trivia.yml").ifPresent(config -> registerGame(new TriviaGameData(config)));
+        Utils.loadResource(plugin, "trivia.yml").ifPresent(config -> registerGame(new TriviaGameData(config, "trivia.yml")));
         Utils.loadResource(plugin, "copy.yml").ifPresent(config -> registerGame(new CopyGameData(config)));
         Utils.loadResource(plugin, "maths.yml").ifPresent(config -> registerGame(new MathGameData(config)));
     }
