@@ -34,14 +34,14 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
         String question = questions.get(ThreadLocalRandom.current().nextInt(questions.size()));
         for (Map<String, List<String>> map : mapList) {
             if (map.get("question").get(0).equals(question)) {
-                answers = map.get("answers").stream().map(String::trim).toList();
+                answers = map.get("answers").stream().map(String::trim).map(String::valueOf).toList();
                 break;
             }
         }
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%question%", question)));
         if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
             if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + Utils.formatListAnswers(answers.stream().map(String.class::cast).toList()));
+                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + Utils.formatListAnswers(answers));
             }
         });
         Timings.startTimings("trivia-chatgame");
