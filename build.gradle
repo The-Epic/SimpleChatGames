@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'me.epic:epicspigotlib:1.4.1-SNAPSHOT'
+    implementation 'me.epic:epicspigotlib:1.4.2-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.projectlombok:lombok:1.18.24'
