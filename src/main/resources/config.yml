@@ -27,6 +27,12 @@ games:
   interval: 5 # Minutes
   players: 2
   not-enough-players-message: "<green>Not enough players online"
+  # Valid sounds can be found on the following link
+  # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+  sounds:
+    enabled: false
+    start: BLOCK_ANVIL_LAND
+    win: ENTITY_VILLAGER_YES
 
 
 rewards:

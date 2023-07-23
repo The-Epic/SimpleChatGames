@@ -162,6 +162,16 @@ public final class SimpleChatGames extends JavaPlugin {
                 if (rewards.isString("command.value")) commandRewards.add(rewards.getString("command.value"));
                 rewards.set("command.value", commandRewards);
             }
+
+            // Add sounds info
+            ConfigurationSection gamesSection = getConfig().getConfigurationSection("games");
+            if (!gamesSection.isSet("sounds")) {
+                List<String> comments = List.of("Valid sounds can be found on the following link", "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
+                gamesSection.set("sounds.enabled", false);
+                gamesSection.set("sounds.start", "BLOCK_ANVIL_LAND");
+                gamesSection.set("sounds.win", "ENTITY_VILLAGER_YES");
+                gamesSection.setComments("sounds", comments);
+            }
         } finally {
             saveConfig();
         }
