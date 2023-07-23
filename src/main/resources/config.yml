@@ -31,8 +31,8 @@ games:
   # https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
   sounds:
     enabled: false
-    start: BLOCK_ANVIL_FALL
-    win: ENTITY_VILLAGER_CELEBRATE
+    start: BLOCK_ANVIL_LAND
+    win: ENTITY_VILLAGER_YES
 
 
 rewards:
