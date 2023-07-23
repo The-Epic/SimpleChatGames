@@ -8,6 +8,7 @@ import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
 import me.epic.spigotlib.material.MaterialUtils;
 import me.epic.spigotlib.serialisation.ItemSerializer;
+import me.epic.spigotlib.utils.RandomUtils;
 import me.epic.spigotlib.utils.SchedulerUtils;
 import me.epic.spigotlib.utils.StringUtils;
 import me.epic.spigotlib.utils.WordUtils;
@@ -183,5 +184,23 @@ public class Utils {
             }
         }
         return config;
+    }
+
+    public static String addBlanks(String fullWord, double chance) {
+        List<String> words = List.of(fullWord.split(" "));
+        StringJoiner returnedWords = new StringJoiner(" ");
+        for (String word : words) {
+            StringBuilder updatedWord = new StringBuilder();
+            char[] characters = word.toCharArray();
+            for (int i = 0; i < characters.length; i++) {
+                if (i != 0 && RandomUtils.chance(chance)) {
+                    updatedWord.append("_");
+                    continue;
+                }
+                updatedWord.append(characters[i]);
+            }
+            returnedWords.add(updatedWord);
+        }
+        return returnedWords.toString().trim();
     }
 }
