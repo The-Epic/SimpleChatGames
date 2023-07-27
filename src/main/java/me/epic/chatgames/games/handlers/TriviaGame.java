@@ -39,11 +39,7 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
             }
         }
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%question%", question)));
-        if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
-            if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + Utils.formatListAnswers(answers));
-            }
-        });
+        super.sendDebugAnswer(Utils.formatListAnswers(answers));
         Timings.startTimings("trivia-chatgame");
     }
 

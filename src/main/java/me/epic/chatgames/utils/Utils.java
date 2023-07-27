@@ -41,7 +41,8 @@ public class Utils {
     }
 
     public static Optional<File> loadResourceFile(Plugin source, String resourceName) {
-        File resourceFile = new File(source.getDataFolder() + File.separator + "games", resourceName);
+        File gameFolder = new File(source.getDataFolder(), "games");
+        File resourceFile = new File(gameFolder, resourceName);
 
         // Copy file if needed
         if (!resourceFile.exists()) {
@@ -57,7 +58,7 @@ public class Utils {
 
     public static Optional<YamlConfiguration> loadResource(JavaPlugin source, String resourceName) {
         if (!ran) {
-            loadFiles(source, file -> source.saveResource(file, false));
+            //loadFiles(source, file -> source.saveResource(file, false));
             ran = true;
         }
         Optional<File> optional = loadResourceFile(source, resourceName);

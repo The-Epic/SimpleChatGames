@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class UnscrambleGame extends ChatGame<UnscrambleGameData> {
 
-    private String answer = new String();
+    private String answer = "";
     private final YamlConfiguration gameConfig = gameData.getGameConfig();
 
     public UnscrambleGame(UnscrambleGameData data, GameManager manager) {
@@ -31,11 +31,7 @@ public class UnscrambleGame extends ChatGame<UnscrambleGameData> {
         this.answer = possibleAnswers.get(ThreadLocalRandom.current().nextInt(possibleAnswers.size()));
 
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%word%", Utils.scrambleWord(answer))));
-        if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
-            if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + answer);
-            }
-        });
+        super.sendDebugAnswer(this.answer);
         Timings.startTimings("unscramble-chatgame");
     }
 
@@ -56,7 +52,7 @@ public class UnscrambleGame extends ChatGame<UnscrambleGameData> {
         if (timeout) {
             Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%word%", answer)));
         }
-        answer = new String();
+        answer = "";
     }
 
     @Override
