@@ -31,6 +31,7 @@ public class GameManager implements Listener {
         Utils.loadResource(plugin, "trivia.yml").ifPresent(config -> registerGame(new TriviaGameData(config, "trivia.yml")));
         Utils.loadResource(plugin, "copy.yml").ifPresent(config -> registerGame(new CopyGameData(config)));
         Utils.loadResource(plugin, "maths.yml").ifPresent(config -> registerGame(new MathGameData(config)));
+        Utils.loadResource(plugin, "fill-the-blanks.yml").ifPresent(config -> registerGame(new FillinGameData(config)));
     }
 
     public boolean isGameRunning() {
