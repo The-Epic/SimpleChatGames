@@ -20,10 +20,12 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public final class SimpleChatGames extends JavaPlugin {
     @Getter private GameManager gameManager;
     @Getter private boolean debugMode;
     @Getter private MessageConfig messageConfig;
+    @Getter private YamlConfiguration antiSpamConfig;
     @Getter private boolean vaultPresent = false;
     @Getter private Economy economy;
     private BukkitTask mainGameTask;
@@ -100,6 +103,7 @@ public final class SimpleChatGames extends JavaPlugin {
             }
         }, delay, interval);
         FileUtils.loadResourceFile(this, "messages.yml").ifPresent(file -> this.messageConfig = new MessageConfig(file));
+        FileUtils.loadResourceFile(this, "antispam.yml").ifPresent(file -> this.antiSpamConfig = YamlConfiguration.loadConfiguration(file));
     }
 
     private void setupEconomy() {

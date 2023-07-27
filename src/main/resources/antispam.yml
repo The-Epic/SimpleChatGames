@@ -1,0 +1,6 @@
+# This file can add a delay to how often you can answer
+antispam:
+  delay:
+    enabled: false
+    delay: 3 # this is in seconds
+    message: "<red>You are on answer cooldown"

@@ -3,13 +3,18 @@ package me.epic.chatgames.games;
 import lombok.Getter;
 import me.epic.chatgames.SimpleChatGames;
 import me.epic.chatgames.games.data.*;
+import me.epic.chatgames.utils.CooldownManager;
 import me.epic.chatgames.utils.Utils;
+import me.epic.spigotlib.formatting.Formatting;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.io.File;
+import java.text.Format;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,12 +23,18 @@ public class GameManager implements Listener {
     private final List<GameData> games = new ArrayList<>();
     @Getter private final SimpleChatGames plugin;
     @Getter private long lastGameTime = System.currentTimeMillis();
+    private boolean answerDelayed;
+    private int answerDelayTime;
+    private final CooldownManager cooldowns = new CooldownManager();
 
     @Getter private volatile ChatGame<? extends GameData> activeGame = null;
 
     public GameManager(SimpleChatGames plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
+        ConfigurationSection antiSpam = plugin.getAntiSpamConfig().getConfigurationSection("antispam");
+        this.answerDelayed = antiSpam.getBoolean("delay.enabled", false);
+        this.answerDelayTime = antiSpam.getInt("delay.delay", 3);
     }
 
     public void loadGames() {
@@ -70,6 +81,15 @@ public class GameManager implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (activeGame == null) return;
+        if (answerDelayed) {
+            if (!cooldowns.hasCooldown(event.getPlayer().getUniqueId())) {
+                activeGame.handleChat(event);
+                cooldowns.setCooldown(event.getPlayer().getUniqueId(), Duration.ofSeconds(3));
+                return;
+            }
+            event.getPlayer().sendMessage(Formatting.translate(plugin.getAntiSpamConfig().getString("antispam.delay.message")));
+            return;
+        }
         activeGame.handleChat(event);
     }
 
