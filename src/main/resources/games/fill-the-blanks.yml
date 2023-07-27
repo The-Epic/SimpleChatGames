@@ -1,0 +1,54 @@
+duration: 45 # This is in seconds
+enabled: true
+messages:
+  start: "<green>First to fill in <white>%word%</white><green> gets a prize!"
+  end:
+    won: "<green><bold>!</bold> <white>%player_name%</white> has won the round in <yellow>%time%<yellow> <white>seconds</white>!"
+    timed-out: "<green><bold>!</bold> No one won that round, the answer was <yellow>%answer%"
+
+# How much of the word will be blanked
+how-much-blanked: 75%
+
+# Should the result be case-sensitive
+case-sensitive: false
+
+#
+#  __/\\\\\_____/\\\_        _______/\\\\\______        __/\\\\\\\\\\\\\\\_        __/\\\\\\\\\\\\\\\_
+#  _\/\\\\\\___\/\\\_        _____/\\\///\\\____        _\///////\\\/////__        _\/\\\///////////__
+#  _\/\\\/\\\__\/\\\_        ___/\\\/__\///\\\__        _______\/\\\_______        _\/\\\_____________
+#  _\/\\\//\\\_\/\\\_        __/\\\______\//\\\_        _______\/\\\_______        _\/\\\\\\\\\\\_____
+#  _\/\\\\//\\\\/\\\_        _\/\\\_______\/\\\_        _______\/\\\_______        _\/\\\///////______
+#  _\/\\\_\//\\\/\\\_        _\//\\\______/\\\__        _______\/\\\_______        _\/\\\_____________
+#  _\/\\\__\//\\\\\\_        __\///\\\__/\\\____        _______\/\\\_______        _\/\\\_____________
+#  _\/\\\___\//\\\\\_        ____\///\\\\\/_____        _______\/\\\_______        _\/\\\\\\\\\\\\\\\_
+#  _\///_____\/////__        ______\/////_______        _______\///________        _\///////////////__
+#
+# The first letter of word in the list, eg "Wooden Pickaxe" the "W" and "P" will remain, this is to avoid all the letters being removed by random
+
+questions:
+  - "Minecraft"
+  - "Digging"
+  - "Diamond"
+  - "Emerald"
+  - "Gold"
+  - "Iron"
+  - "Grass"
+  - "Creeper"
+  - "Zombie"
+  - "Skeleton"
+  - "Steve"
+  - "Enderman"
+  - "Nether"
+  - "Overworld"
+  - "Redstone"
+  - "Tnt"
+  - "Pickaxe"
+  - "Sword"
+  - "Bow"
+  - "Arrow"
+  - "Enchantment"
+  - "Potion"
+  - "Iron Pickaxe"
+  - "Wooden Pickaxe"
+  - "Diamond Pickaxe"
+  - "Netherite Block"
