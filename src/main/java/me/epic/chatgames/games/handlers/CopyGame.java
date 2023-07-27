@@ -39,11 +39,8 @@ public class CopyGame extends ChatGame<CopyGameData> {
 
 
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%word%", answer)));
-        if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
-            if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + answer);
-            }
-        });
+
+        super.sendDebugAnswer(this.answer);
         Timings.startTimings("copy-chatgame");
     }
 
@@ -51,10 +48,8 @@ public class CopyGame extends ChatGame<CopyGameData> {
     protected void win(Player player) {
         super.win(player);
 
-        long timeTookLong = Timings.endTimings("copy-chatgame");
-        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
-        answer = new String();
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, Timings.endTimings("copy-chatgame"));
+        answer = "";
     }
 
     @Override
@@ -64,7 +59,7 @@ public class CopyGame extends ChatGame<CopyGameData> {
         if (timeout) {
             Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out")));
         }
-        answer = new String();
+        answer = "";
     }
 
     @Override

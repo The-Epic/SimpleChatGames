@@ -3,6 +3,7 @@ package me.epic.chatgames.games;
 import lombok.Getter;
 import me.epic.chatgames.games.data.GameData;
 import me.epic.chatgames.utils.PlayerDataUtils;
+import me.epic.chatgames.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -63,5 +64,13 @@ public abstract class ChatGame<T extends GameData> {
     }
 
     public abstract void handleChat(AsyncPlayerChatEvent event);
+
+    protected void sendDebugAnswer(String answer) {
+        if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
+            if (offlinePlayer.isOnline()) {
+                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + answer);
+            }
+        });
+    }
 
 }

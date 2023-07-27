@@ -37,11 +37,7 @@ public class FillinGame extends ChatGame<FillinGameData> {
         String question = Utils.addBlanks(this.answer, blankageAmount);
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%word%", question)));
 
-        if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
-            if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + answer);
-            }
-        });
+        super.sendDebugAnswer(this.answer);
         Timings.startTimings("fillin-chatgame");
     }
 
@@ -49,9 +45,7 @@ public class FillinGame extends ChatGame<FillinGameData> {
     protected void win(Player player) {
         super.win(player);
 
-        long timeTookLong = Timings.endTimings("fillin-chatgame");
-        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, Timings.endTimings("fillin-chatgame"));
         this.answer = "";
     }
 

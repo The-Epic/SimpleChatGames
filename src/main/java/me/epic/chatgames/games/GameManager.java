@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,12 +27,11 @@ public class GameManager implements Listener {
     }
 
     public void loadGames() {
-        games.clear();
-        Utils.loadResource(plugin, "unscramble.yml").ifPresent(config -> registerGame(new UnscrambleGameData(config)));
-        Utils.loadResource(plugin, "trivia.yml").ifPresent(config -> registerGame(new TriviaGameData(config, "trivia.yml")));
-        Utils.loadResource(plugin, "copy.yml").ifPresent(config -> registerGame(new CopyGameData(config)));
-        Utils.loadResource(plugin, "maths.yml").ifPresent(config -> registerGame(new MathGameData(config)));
-        Utils.loadResource(plugin, "fill-the-blanks.yml").ifPresent(config -> registerGame(new FillinGameData(config)));
+        registerGame(new UnscrambleGameData(getAndSaveGameFile("unscramble.yml")));
+        registerGame(new TriviaGameData(getAndSaveGameFile("trivia.yml")));
+        registerGame(new CopyGameData(getAndSaveGameFile("copy.yml")));
+        registerGame(new MathGameData(getAndSaveGameFile("maths.yml")));
+        registerGame(new FillinGameData(getAndSaveGameFile("fill-the-blanks.yml")));
     }
 
     public boolean isGameRunning() {
@@ -59,11 +59,22 @@ public class GameManager implements Listener {
         }
     }
 
+    public void reloadGames() {
+        if (isGameRunning()) this.activeGame.end();
+        for (GameData gameData : games) {
+            gameData.reloadConfig();
+        }
+    }
+
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (activeGame == null) return;
         activeGame.handleChat(event);
     }
 
-
+    private File getAndSaveGameFile(String name) {
+        File gamesFolder = new File(plugin.getDataFolder(), "games");
+        Utils.loadResourceFile(plugin, name, gamesFolder);
+        return new File(gamesFolder, name);
+    }
 }

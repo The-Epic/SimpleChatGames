@@ -3,12 +3,13 @@ package me.epic.chatgames.games.data;
 import me.epic.chatgames.games.ChatGame;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.handlers.FillinGame;
-import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
 
 public class FillinGameData extends GameData {
 
-    public FillinGameData(YamlConfiguration config) {
-        super(config);
+    public FillinGameData(File file) {
+        super(file);
     }
 
     @Override

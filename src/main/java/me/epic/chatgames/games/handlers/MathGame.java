@@ -14,7 +14,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class MathGame extends ChatGame<MathGameData> {
 
-    private String answer = new String();
+    private String answer = "";
     private final YamlConfiguration gameConfig = gameData.getGameConfig();
 
 
@@ -32,11 +32,7 @@ public class MathGame extends ChatGame<MathGameData> {
         this.answer = String.valueOf(mathQuestionGenerator.getResult());
 
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%question%", question)));
-        if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
-            if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + answer);
-            }
-        });
+        super.sendDebugAnswer(this.answer);
         Timings.startTimings("math-chatgame");
 
     }
@@ -45,10 +41,8 @@ public class MathGame extends ChatGame<MathGameData> {
     protected void win(Player player) {
         super.win(player);
 
-        long timeTookLong = Timings.endTimings("math-chatgame");
-        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
-        this.answer = new String();
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, Timings.endTimings("math-chatgame"));
+        this.answer = "";
     }
 
     @Override
@@ -58,7 +52,7 @@ public class MathGame extends ChatGame<MathGameData> {
         if (timeout) {
             Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%answer%", answer)));
         }
-        this.answer = new String();
+        this.answer = "";
     }
 
     @Override

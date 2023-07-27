@@ -5,10 +5,12 @@ import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.handlers.CopyGame;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+
 public class CopyGameData extends GameData {
 
-    public CopyGameData(YamlConfiguration config ) {
-        super(config);
+    public CopyGameData(File file) {
+        super(file);
     }
 
     @Override

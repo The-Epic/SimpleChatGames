@@ -39,39 +39,39 @@ public class RewardCommand extends SimpleCommandHandler {
             case "set" -> {
                 switch (args[1]) {
                     case "item" -> {
+                        ItemFactory.DEFAULT.write(player.getInventory().getItemInMainHand(), plugin.getConfig(), "rewards.item.value");
+                        plugin.saveConfig();
+                        plugin.reloadConfig();
                         if (config.getBoolean("rewards.item.enabled")) {
-                            ItemFactory.DEFAULT.write(player.getInventory().getItemInMainHand(), plugin.getConfig(), "rewards.item.value");
-                            plugin.saveConfig();
-                            plugin.reloadConfig();
                             player.sendMessage(Formatting.translate("<green>Item added!"));
-                            Utils.init();
                         } else {
-                            player.sendMessage(Formatting.translate("<red>" + "Item rewards are currently disabled."));
+                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold>]</bold> This reward is currently disabled, run \"/cg reward enable item\" to enable it"));
                         }
+                        Utils.init();
                     }
                     case "command" -> {
+                        List<String> currentCommands = config.getStringList("rewards.command.value");
+                        StringJoiner joiner = new StringJoiner(" ");
+                        for (int i = 2; i < args.length; i++) {
+                            joiner.add(args[i]);
+                        }
+                        currentCommands.add(joiner.toString());
+                        config.set("rewards.command.value", currentCommands);
+                        plugin.saveConfig();
                         if (config.getBoolean("rewards.command.enabled")) {
-                            List<String> currentCommands = config.getStringList("rewards.command.value");
-                            StringJoiner joiner = new StringJoiner(" ");
-                            for (int i = 2; i < args.length; i++) {
-                                joiner.add(args[i]);
-                            }
-                            currentCommands.add(joiner.toString());
-                            config.set("rewards.command.value", currentCommands);
-                            plugin.saveConfig();
                             player.sendMessage(Formatting.translate("<green>Command added!"));
                         } else {
-                            player.sendMessage(Formatting.translate("<red>" + "Command rewards are currently disabled."));
+                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold>]</bold> This reward is currently disabled, run \"/cg reward enable command\" to enable it"));
                         }
                     }
                     case "economy" -> {
+                        double amount = Double.parseDouble(args[2]);
+                        config.set("rewards.economy.value", amount);
+                        plugin.saveConfig();
                         if (config.getBoolean("rewards.economy.enabled")) {
-                            double amount = Double.parseDouble(args[2]);
-                            config.set("rewards.economy.value", amount);
-                            plugin.saveConfig();
                             player.sendMessage(Formatting.translate("<green>Money added!"));
                         } else {
-                            player.sendMessage(Formatting.translate("<red>" + "Economy rewards are currently disabled."));
+                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold>]</bold> This reward is currently disabled, run \"/cg reward enable economy\" to enable it"));
                         }
                     }
                     default -> player.sendMessage("Invalid command arguments, use /cg reward set <item|command|economy>");

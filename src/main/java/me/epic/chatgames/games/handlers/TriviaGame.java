@@ -39,11 +39,7 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
             }
         }
         Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.start").replace("%question%", question)));
-        if (manager.getPlugin().isDebugMode()) Bukkit.getOperators().forEach(offlinePlayer -> {
-            if (offlinePlayer.isOnline()) {
-                Bukkit.getPlayer(offlinePlayer.getName()).sendMessage("Chat Game Answer: " + Utils.formatListAnswers(answers));
-            }
-        });
+        super.sendDebugAnswer(Utils.formatListAnswers(answers));
         Timings.startTimings("trivia-chatgame");
     }
 
@@ -51,9 +47,7 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
     protected void win(Player player) {
         super.win(player);
 
-        long timeTookLong = Timings.endTimings("trivia-chatgame");
-        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, Timings.endTimings("trivia-chatgame"));
         answers = new ArrayList<>();
     }
 
