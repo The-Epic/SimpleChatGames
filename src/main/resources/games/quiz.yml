@@ -1,0 +1,27 @@
+enabled: true
+duration: 30 # This is in seconds
+
+messages:
+  start: "<green>ChatGame: <white>%question%"
+  end:
+    won: "<green><bold>!</bold> <white>%player_name%</white> has won the round in <yellow>%time%<yellow> <white>seconds</white>!"
+    timed-out: "<green><bold>!</bold> No one won that round, the answer was <yellow>%answer%"
+
+
+# There is a maximum of 6 results per question to avoid flooding chat
+
+questions:
+  - question: "A flashing red traffic light signifies that a driver should do what?"
+    answer: "a"
+    results:
+      a: "stop"
+      b: "speed up"
+      c: "proceed with caution"
+      d: "honk the horn"
+  - question: "A Knish is traditionally stuff with what filling?"
+    answer: "a"
+    results:
+      a: "potato"
+      b: "creamed corn"
+      c: "lemon custard"
+      d: "raspberry jelly"

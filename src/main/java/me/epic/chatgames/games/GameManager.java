@@ -32,6 +32,7 @@ public class GameManager implements Listener {
         registerGame(new CopyGameData(getAndSaveGameFile("copy.yml")));
         registerGame(new MathGameData(getAndSaveGameFile("maths.yml")));
         registerGame(new FillinGameData(getAndSaveGameFile("fill-the-blanks.yml")));
+        registerGame(new QuizGameData(getAndSaveGameFile("quiz.yml")));
     }
 
     public boolean isGameRunning() {
