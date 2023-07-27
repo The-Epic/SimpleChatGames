@@ -45,7 +45,7 @@ public class RewardCommand extends SimpleCommandHandler {
                         if (config.getBoolean("rewards.item.enabled")) {
                             player.sendMessage(Formatting.translate("<green>Item added!"));
                         } else {
-                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold]</bold> This reward is currently disabled, run \"/cg reward enable item\" to enable it"));
+                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold>]</bold> This reward is currently disabled, run \"/cg reward enable item\" to enable it"));
                         }
                         Utils.init();
                     }
@@ -61,7 +61,7 @@ public class RewardCommand extends SimpleCommandHandler {
                         if (config.getBoolean("rewards.command.enabled")) {
                             player.sendMessage(Formatting.translate("<green>Command added!"));
                         } else {
-                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold]</bold> This reward is currently disabled, run \"/cg reward enable command\" to enable it"));
+                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold>]</bold> This reward is currently disabled, run \"/cg reward enable command\" to enable it"));
                         }
                     }
                     case "economy" -> {
@@ -71,7 +71,7 @@ public class RewardCommand extends SimpleCommandHandler {
                         if (config.getBoolean("rewards.economy.enabled")) {
                             player.sendMessage(Formatting.translate("<green>Money added!"));
                         } else {
-                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold]</bold> This reward is currently disabled, run \"/cg reward enable economy\" to enable it"));
+                            player.sendMessage(Formatting.translate("<green>Item added! <red><bold>[</bold>!<bold>]</bold> This reward is currently disabled, run \"/cg reward enable economy\" to enable it"));
                         }
                     }
                     default -> player.sendMessage("Invalid command arguments, use /cg reward set <item|command|economy>");
