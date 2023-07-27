@@ -39,10 +39,9 @@ public class UnscrambleGame extends ChatGame<UnscrambleGameData> {
     protected void win(Player player) {
         super.win(player);
         // Win logic
-        long timeTookLong = Timings.endTimings("unscramble-chatgame");
-        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
-        answer = new String();
+
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, Timings.endTimings("unscramble-chatgame"));
+        answer = "";
     }
 
     @Override

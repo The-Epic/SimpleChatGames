@@ -47,10 +47,8 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
     protected void win(Player player) {
         super.win(player);
 
-        long timeTookLong = Timings.endTimings("trivia-chatgame");
-        String finalTimeTook = String.format("%.2f", ((double) timeTookLong / 1000.0));
-        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, finalTimeTook);
-        answers = new ArrayList<>();
+        Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, Timings.endTimings("trivia-chatgame"));
+        answers.clear();
     }
 
     @Override
@@ -59,7 +57,7 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
         if (timeout) {
             Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%answers%", Utils.formatListAnswers(answers))));
         }
-        answers = new ArrayList<>();
+        answers.clear();
     }
 
     @Override

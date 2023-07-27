@@ -21,7 +21,7 @@ public class ReloadCommand extends SimpleCommandHandler {
     public void handleCommand(CommandSender sender, String[] args) {
         Timings.startTimings("plugin-reload");
         plugin.reload();
-        plugin.getGameManager().loadGames();
+        plugin.getGameManager().reloadGames();
         String timeTook = Timings.endTimingsString("plugin-reload");
         sender.sendMessage(Formatting.translate("<green>Plugin reloaded in " + timeTook + "ms"));
     }

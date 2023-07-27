@@ -5,10 +5,12 @@ import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.handlers.UnscrambleGame;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+
 public class UnscrambleGameData extends GameData {
 
-    public UnscrambleGameData(YamlConfiguration config) {
-        super(config);
+    public UnscrambleGameData(File gameConfigFile) {
+        super(gameConfigFile);
     }
 
     @Override

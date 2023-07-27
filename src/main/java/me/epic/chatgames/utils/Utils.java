@@ -22,6 +22,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
+import javax.xml.xpath.XPathEvaluationResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -31,7 +32,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class Utils {
-    private static boolean ran = false;
     private static ItemStack rewardStack;
 
     public static void init() {
@@ -41,9 +41,8 @@ public class Utils {
         }
     }
 
-    public static Optional<File> loadResourceFile(Plugin source, String resourceName) {
-        File gameFolder = new File(source.getDataFolder(), "games");
-        File resourceFile = new File(gameFolder, resourceName);
+    public static Optional<File> loadResourceFile(Plugin source, String resourceName, File parentFolder) {
+        File resourceFile = new File(parentFolder, resourceName);
 
         // Copy file if needed
         if (!resourceFile.exists()) {
@@ -55,37 +54,6 @@ public class Utils {
             return Optional.empty();
         }
         return Optional.of(resourceFile);
-    }
-
-    public static Optional<YamlConfiguration> loadResource(JavaPlugin source, String resourceName) {
-        if (!ran) {
-            //loadFiles(source, file -> source.saveResource(file, false));
-            ran = true;
-        }
-        Optional<File> optional = loadResourceFile(source, resourceName);
-
-        return optional.map(YamlConfiguration::loadConfiguration);
-    }
-
-    @SneakyThrows
-    private static void loadFiles(JavaPlugin plugin, Consumer<String> consumer) {
-        final File jarFile = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-        if (jarFile.isFile()) {
-            final JarFile jar = new JarFile(jarFile);
-            final Enumeration<JarEntry> entries = jar.entries();
-            while (entries.hasMoreElements()) {
-                final JarEntry entry = entries.nextElement();
-                if (entry.isDirectory()) continue;
-
-                final String name = entry.getName();
-                if (name.startsWith("games" + "/")) {
-                    File file = new File(plugin.getDataFolder(), name);
-                    if (plugin.getDataFolder().exists() && !(file.exists())) {
-                        consumer.accept(name);
-                    }
-                }
-            }
-        }
     }
 
 
@@ -105,7 +73,8 @@ public class Utils {
         return builder.toString().trim();
     }
 
-    public static void giveRewardAndNotify(SimpleChatGames plugin, Player player, GameData gameData, String timeTook) {
+    public static void giveRewardAndNotify(SimpleChatGames plugin, Player player, GameData gameData, long timingsResult) {
+        String timeTook = String.format("%.2f", ((double) timingsResult / 1000.0));
         FileConfiguration config = plugin.getConfig();
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Bukkit.broadcastMessage(Formatting.translate(gameData.getGameConfig().getString("messages.end.won").replace("%time%", timeTook.toString()).replace("%player_name%", player.getName())));
@@ -158,9 +127,9 @@ public class Utils {
         return convertedList;
     }
 
-    public static YamlConfiguration updateQuestions(YamlConfiguration config, String fileName) {
+    public static File updateQuestions(File gameFile) {
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(gameFile);
         if (config.isConfigurationSection("questions")) {
-            File file = new File(new File(SimpleChatGames.getPlugin().getDataFolder() + "\\games"), fileName);
             List<Map<String, Object>> mapList = new ArrayList<>();
             ConfigurationSection questionsSection = config.getConfigurationSection("questions");
 
@@ -179,12 +148,12 @@ public class Utils {
 
             System.out.println(SimpleChatGames.getPlugin().getDataFolder());
             try {
-                config.save(file);
+                config.save(gameFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return config;
+        return gameFile;
     }
 
     public static String addBlanks(String fullWord, double chance) {

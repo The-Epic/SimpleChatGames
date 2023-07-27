@@ -4,15 +4,13 @@ import me.epic.chatgames.games.ChatGame;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.handlers.TriviaGame;
 import me.epic.chatgames.utils.Utils;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
 public class TriviaGameData extends GameData {
 
-    public TriviaGameData(YamlConfiguration config, String fileName) {
-        // Updates trivia config question format
-        super(Utils.updateQuestions(config, fileName));
+    public TriviaGameData(File file) {
+        super(Utils.updateQuestions(file));
     }
 
     @Override

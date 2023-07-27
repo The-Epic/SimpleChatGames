@@ -3,12 +3,13 @@ package me.epic.chatgames.games.data;
 import me.epic.chatgames.games.ChatGame;
 import me.epic.chatgames.games.GameManager;
 import me.epic.chatgames.games.handlers.MathGame;
-import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
 
 public class MathGameData extends GameData {
 
-    public MathGameData(YamlConfiguration config) {
-        super(config);
+    public MathGameData(File file) {
+        super(file);
     }
 
     @Override
