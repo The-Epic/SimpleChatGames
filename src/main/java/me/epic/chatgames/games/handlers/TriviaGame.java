@@ -48,7 +48,7 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
         super.win(player);
 
         Utils.giveRewardAndNotify(manager.getPlugin(), player, gameData, Timings.endTimings("trivia-chatgame"));
-        answers.clear();
+        answers = new ArrayList<>();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class TriviaGame extends ChatGame<TriviaGameData> {
         if (timeout) {
             Bukkit.broadcastMessage(Formatting.translate(gameConfig.getString("messages.end.timed-out").replace("%answers%", Utils.formatListAnswers(answers))));
         }
-        answers.clear();
+        answers = new ArrayList<>();
     }
 
     @Override
