@@ -84,7 +84,7 @@ publishing {
         shadow(MavenPublication) { publication ->
             project.shadow.component(publication)
             artifacts = [shadowJar, javadocJar, sourcesJar]
-            version = version + "-SNAPSHOT"
+
         }
     }
     repositories {
