@@ -14,7 +14,7 @@ public abstract class ChatGame<T extends GameData> {
     @Getter
     private final long endTime;
     protected final GameManager manager;
-    protected final GameRunnable timer;
+    protected final GameTimeRunnable timer;
     protected final T gameData;
     private Sound startSound;
     private Sound winSound;
@@ -25,7 +25,7 @@ public abstract class ChatGame<T extends GameData> {
         this.gameData = data;
 
         this.manager = manager;
-        this.timer = new GameRunnable(this);
+        this.timer = new GameTimeRunnable(this);
 
         if (manager.getPlugin().getConfig().getBoolean("games.sounds.enabled", false)) {
             this.startSound = Sound.valueOf(manager.getPlugin().getConfig().getString("games.sounds.start", "BLOCK_ANVIL_FALL").toUpperCase());

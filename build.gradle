@@ -27,6 +27,7 @@ dependencies {
     implementation('me.epic:epicspigotlib:1.4.2-SNAPSHOT')
     implementation('xyz.epicebic:ebiclib:1.2.2-SNAPSHOT')
     implementation('net.byteflux:libby-bukkit:1.2.2-SNAPSHOT')
+    implementation("me.epic:betteritemconfig:3.0.0-SNAPSHOT")
     compileOnly('org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT')
     annotationProcessor('org.projectlombok:lombok:1.18.24')
     compileOnly('org.projectlombok:lombok:1.18.24')
@@ -47,8 +48,19 @@ shadowJar {
     relocate 'org.bstats', 'xyz.epicebic.simplechatgames.libs.bstats'
 }
 
+tasks.register('copyJar', Copy) {
+    doNotTrackState("")
+    def target = System.getenv("plugin-dir")
+
+    if (target != null) {
+        from shadowJar
+        into file(target)
+    }
+}
+
 build {
     dependsOn shadowJar
+    finalizedBy copyJar
 }
 
 tasks.register('release') {

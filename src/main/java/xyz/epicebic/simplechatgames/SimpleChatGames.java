@@ -1,13 +1,9 @@
 package xyz.epicebic.simplechatgames;
 
-import lombok.Getter;
 import lombok.SneakyThrows;
-import me.epic.betteritemconfig.ItemFactory;
-import xyz.epicebic.simplechatgames.commands.CommandHandler;
-import xyz.epicebic.simplechatgames.games.GameManager;
-import xyz.epicebic.simplechatgames.placeholderapi.SimpleChatGamesExpansion;
-import xyz.epicebic.simplechatgames.utils.PlayerDataUtils;
-import xyz.epicebic.simplechatgames.utils.Utils;
+import net.byteflux.libby.BukkitLibraryManager;
+import net.byteflux.libby.Library;
+import xyz.epicebic.betteritemconfig.ItemFactory;
 import me.epic.spigotlib.UpdateChecker;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
@@ -25,6 +21,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import xyz.epicebic.simplechatgames.commands.CommandHandler;
+import xyz.epicebic.simplechatgames.games.GameManager;
+import xyz.epicebic.simplechatgames.placeholderapi.SimpleChatGamesExpansion;
+import xyz.epicebic.simplechatgames.utils.PlayerDataUtils;
+import xyz.epicebic.simplechatgames.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,13 +34,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class SimpleChatGames extends JavaPlugin {
 
-    @Getter private static SimpleChatGames plugin;
-    @Getter private GameManager gameManager;
-    @Getter private boolean debugMode;
-    @Getter private MessageConfig messageConfig;
-    @Getter private YamlConfiguration antiSpamConfig;
-    @Getter private boolean vaultPresent = false;
-    @Getter private Economy economy;
+    private static SimpleChatGames plugin;
+    private GameManager gameManager;
+    private boolean debugMode;
+    private MessageConfig messageConfig;
+    private YamlConfiguration antiSpamConfig;
+    private boolean vaultPresent = false;
+    private Economy economy;
     private BukkitTask mainGameTask;
 
 
@@ -48,17 +49,17 @@ public final class SimpleChatGames extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+        loadLibraries();
         saveDefaultConfig();
-        new UpdateChecker(this, 108655).runUpdateChecker(getConfig().getInt("update-checker.interval"), "https://www.spigotmc.org/resources/simplechatgames.108655/", getConfig().getBoolean("update-checker.enabled"));
+        checkForUpdates();
         loadBstats();
         reload();
         ConfigUpdater.update(this, "messages.yml", new File(getDataFolder(), "messages.yml"));
         getCommand("simplechatgames").setExecutor(new CommandHandler(this));
         gameManager = new GameManager(this);
         gameManager.loadGames();
-        PlayerDataUtils.init(getConfig().getString("storage.type", "json"));
+        PlayerDataUtils.init(getConfig().getString("storage.type", "json")); // TODO update this
 
-        updateConfig();
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             getLogger().info("Vault found, registering compatibility.");
@@ -74,21 +75,23 @@ public final class SimpleChatGames extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (gameManager.isGameRunning()) gameManager.getActiveGame().end();
+        if (gameManager.isGameRunning()) {
+            gameManager.getActiveGame().end();
+        }
         gameManager.clearActiveGame();
     }
 
     public void reload() {
-        if (mainGameTask != null) mainGameTask.cancel();
+        if (mainGameTask != null) {
+            mainGameTask.cancel();
+        }
         reloadConfig();
         Utils.init();
         debugMode = getConfig().getBoolean("debug", false);
         int delay = 20 * 60 * getConfig().getInt("games.interval");
-        int interval = delay;
         AtomicInteger playersNeeded = new AtomicInteger(getConfig().getInt("games.players"));
         if (debugMode) {
             delay = 20 * 20;
-            interval = 20 * 60;
             playersNeeded.set(0);
             getLogger().warning("Debug mode enabled");
         }
@@ -96,12 +99,16 @@ public final class SimpleChatGames extends JavaPlugin {
             if ((debugMode || Bukkit.getOnlinePlayers().size() >= playersNeeded.get())) {
                 gameManager.startRandomGame();
             } else {
-                if (!gameManager.isGameRunning())
-                    Bukkit.broadcastMessage(Formatting.translate(getConfig().getString("games.not-enough-players-message")));
+                if (!gameManager.isGameRunning()) {
+                    Bukkit.broadcastMessage(Formatting.translate(getConfig().getString(
+                            "games.not-enough-players-message")));
+                }
             }
-        }, delay, interval);
-        FileUtils.loadResourceFile(this, "messages.yml").ifPresent(file -> this.messageConfig = new MessageConfig(file));
-        FileUtils.loadResourceFile(this, "antispam.yml").ifPresent(file -> this.antiSpamConfig = YamlConfiguration.loadConfiguration(file));
+        }, delay, delay);
+        FileUtils.loadResourceFile(this, "messages.yml")
+                 .ifPresent(file -> this.messageConfig = new MessageConfig(file));
+        FileUtils.loadResourceFile(this, "antispam.yml")
+                 .ifPresent(file -> this.antiSpamConfig = YamlConfiguration.loadConfiguration(file));
     }
 
     private void setupEconomy() {
@@ -120,62 +127,50 @@ public final class SimpleChatGames extends JavaPlugin {
         metrics.addCustomChart(new SimplePie("online_mode", ServerUtils::getMode));
     }
 
-    //The jankiest way for me to not update config updater
-    public void updateConfig() {
-        try {
-            // Rewards updating
-            ConfigurationSection rewards = getConfig().getConfigurationSection("rewards");
-            assert rewards != null;
-            if (!rewards.isConfigurationSection("command") && rewards.getString("command", "disabled").equals("disabled")) {
-                rewards.set("command", "");
-                rewards.set("command.enabled", false);
-                rewards.set("command.value", "nocommand");
-            } else if (!rewards.isConfigurationSection("command")) {
-                String oldCommand = rewards.getString("command");
-                rewards.set("command", "");
-                rewards.set("command.enabled", true);
-                rewards.set("command.value", oldCommand);
-            }
-            if (rewards.isString("economy") && rewards.getString("economy").equals("disabled")) {
-                rewards.set("economy", "");
-                rewards.set("economy.enabled", false);
-                rewards.set("economy.value", 0);
-            } else if (!rewards.isConfigurationSection("economy")){
-                double oldValue = rewards.getDouble("economy");
-                rewards.set("economy", "");
-                rewards.set("economy.enabled", true);
-                rewards.set("economy.value", oldValue);
-            }
-            if (!rewards.isConfigurationSection("item") && rewards.getString("item", "disabled").equals("disabled")) {
-                rewards.set("item", "");
-                rewards.set("item.enabled", false);
-                rewards.set("item.value", "");
-            } else if (!rewards.isConfigurationSection("item")) {
-                String b64Item = rewards.getString("item");
-                rewards.set("item", "");
-                rewards.set("item.enabled", true);
-                ItemStack item = ItemSerializer.itemStackFromBase64(b64Item);
-                ItemFactory.DEFAULT.write(item, getConfig(), "rewards.item.value");
-            }
+    public void loadLibraries() {
+        BukkitLibraryManager libraryManager = new BukkitLibraryManager(this);
+        Library hikari = Library.builder().artifactId("com.zaxxer").groupId("HikariCP").version("5.0.1").build();
+        Library adventureBukkit = Library.builder().artifactId("net.kyori").groupId("adventure-platform-bukkit").version("4.2.0").build();
+        Library adventureApi = Library.builder().artifactId("net.kyori").groupId("adventure-api").version("4.13.0").build();
+        Library adventureText = Library.builder().artifactId("net.kyori").groupId("adventure-text-minimessage").version("4.13.0").build();
+        libraryManager.addMavenCentral();
+        libraryManager.loadLibrary(hikari);
+        libraryManager.loadLibrary(adventureBukkit);
+        libraryManager.loadLibrary(adventureApi);
+        libraryManager.loadLibrary(adventureText);
+    }
 
-            // Rewards p2 -- commands being a list instead
-            if (rewards.isString("command.value") || rewards.isInt("command.value")) {
-                List<String> commandRewards = new ArrayList<>();
-                if (rewards.isString("command.value")) commandRewards.add(rewards.getString("command.value"));
-                rewards.set("command.value", commandRewards);
-            }
+    public void checkForUpdates() {
+        new UpdateChecker(this, 108655).runUpdateChecker(getConfig().getInt("update-checker.interval"),
+                "https://www.spigotmc.org/resources/simplechatgames.108655/",
+                getConfig().getBoolean("update-checker.enabled"));
+    }
 
-            // Add sounds info
-            ConfigurationSection gamesSection = getConfig().getConfigurationSection("games");
-            if (!gamesSection.isSet("sounds")) {
-                List<String> comments = List.of("Valid sounds can be found on the following link", "https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html");
-                gamesSection.set("sounds.enabled", false);
-                gamesSection.set("sounds.start", "BLOCK_ANVIL_LAND");
-                gamesSection.set("sounds.win", "ENTITY_VILLAGER_YES");
-                gamesSection.setComments("sounds", comments);
-            }
-        } finally {
-            saveConfig();
-        }
+    public static SimpleChatGames getPlugin() {
+        return plugin;
+    }
+
+    public GameManager getGameManager() {
+        return this.gameManager;
+    }
+
+    public boolean isDebugMode() {
+        return this.debugMode;
+    }
+
+    public MessageConfig getMessageConfig() {
+        return this.messageConfig;
+    }
+
+    public YamlConfiguration getAntiSpamConfig() {
+        return this.antiSpamConfig;
+    }
+
+    public boolean isVaultPresent() {
+        return this.vaultPresent;
+    }
+
+    public Economy getEconomy() {
+        return this.economy;
     }
 }

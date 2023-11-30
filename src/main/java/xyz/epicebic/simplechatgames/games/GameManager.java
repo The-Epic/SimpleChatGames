@@ -2,7 +2,6 @@ package xyz.epicebic.simplechatgames.games;
 
 import lombok.Getter;
 import xyz.epicebic.simplechatgames.SimpleChatGames;
-import me.epic.chatgames.games.data.*;
 import xyz.epicebic.simplechatgames.utils.CooldownManager;
 import xyz.epicebic.simplechatgames.utils.Utils;
 import me.epic.spigotlib.formatting.Formatting;
