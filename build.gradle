@@ -1,57 +1,50 @@
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version "7.1.0"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
     id 'maven-publish'
+    id 'net.minecrell.plugin-yml.bukkit' version '0.5.3'
 }
 
 group = 'me.epic'
-version = '2.0.1'
+version = '3.0.0'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(16)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://repo.epicebic.xyz/public"
-    }
-    maven {
-        name = 'spigotmc-repo'
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-    }
-    maven { url 'https://jitpack.io' }
+    maven { url = "https://repo.epicebic.xyz/public" }
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://jitpack.io' }
     maven { url = 'https://repo.papermc.io/repository/maven-public/' }
-    maven {
-        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
-    }
+    maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'}
 }
 
 dependencies {
-    implementation 'me.epic:epicspigotlib:1.4.2-SNAPSHOT'
-    compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    compileOnly 'org.jetbrains:annotations:19.0.0'
-    implementation 'commons-io:commons-io:2.11.0'
-    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
-    implementation 'org.bstats:bstats-bukkit:3.0.0'
-    compileOnly 'me.clip:placeholderapi:2.11.2'
-    implementation 'me.epic:betteritemconfig:2.0.2-SNAPSHOT'
+    implementation('me.epic:epicspigotlib:1.4.2-SNAPSHOT')
+    implementation('xyz.epicebic:ebiclib:1.2.2-SNAPSHOT')
+    implementation('net.byteflux:libby-bukkit:1.2.2-SNAPSHOT')
+    compileOnly('org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT')
+    annotationProcessor('org.projectlombok:lombok:1.18.24')
+    compileOnly('org.projectlombok:lombok:1.18.24')
+    compileOnly('org.jetbrains:annotations:24.0.0')
+    implementation('commons-io:commons-io:2.11.0')
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    implementation('org.bstats:bstats-bukkit:3.0.0')
+    compileOnly('me.clip:placeholderapi:2.11.2')
+    compileOnly('com.zaxxer:HikariCP:5.0.1')
 }
 
 
 shadowJar {
     archiveFileName = "SimpleChatGames-${project.version}.jar"
-    relocate 'me.epic.spigotlib', 'me.epic.chatgames.spigotlib'
-    relocate 'org.bstats', 'me.epic.chatgames.bstats'
-    destinationDirectory = file("./target/")
     archiveClassifier.set('')
-    minimize {
-        exclude('me.epic.spigotlib.utils.**')
-    }
+    relocate 'me.epic.spigotlib', 'me.epic.chatgames.spigotlib'
+    relocate 'xyz.epic.ebiclib', 'me.epic.chatgames.ebiclib'
+    relocate 'org.bstats', 'me.epic.chatgames.bstats'
 }
 
 build {
@@ -62,12 +55,20 @@ tasks.register('release') {
     finalizedBy(clean, build, publish)
 }
 
-processResources {
-    def props = [version: version]
-    inputs.properties props
-    filteringCharset 'UTF-8'
-    filesMatching('plugin.yml') {
-        expand props
+bukkit {
+    name = 'SimpleChatGames'
+    version = version
+    main = 'me.epic.chatgames.SimpleChatGames'
+    apiVersion = '1.18'
+    softDepend = [
+            'PlaceholderAPI',
+            'Vault'
+    ]
+
+    commands {
+        simplechatgames {
+            aliases =['cg', 'scg', 'chatgames']
+        }
     }
 }
 
