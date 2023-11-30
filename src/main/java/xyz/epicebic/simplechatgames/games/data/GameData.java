@@ -1,0 +1,31 @@
+package xyz.epicebic.simplechatgames.games.data;
+
+import lombok.Getter;
+import xyz.epicebic.simplechatgames.games.ChatGame;
+import xyz.epicebic.simplechatgames.games.GameManager;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+
+public abstract class GameData {
+
+    private final int duration;
+    private final File gameFile;
+    @Getter private YamlConfiguration gameConfig;
+
+    public GameData(File gameConfigFile) {
+        this.gameFile = gameConfigFile;
+        this.gameConfig = YamlConfiguration.loadConfiguration(this.gameFile);
+        this.duration = gameConfig.getInt("duration");
+    }
+
+    public void reloadConfig() {
+        this.gameConfig = YamlConfiguration.loadConfiguration(this.gameFile);
+    }
+
+    public abstract ChatGame<?> createGame(GameManager manager);
+
+    public int getDuration() {
+        return duration;
+    }
+}

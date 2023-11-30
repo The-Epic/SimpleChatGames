@@ -5,7 +5,7 @@ plugins {
     id 'net.minecrell.plugin-yml.bukkit' version '0.5.3'
 }
 
-group = 'me.epic'
+group = 'xyz.epicebic'
 version = '3.0.0'
 
 java {
@@ -43,8 +43,8 @@ shadowJar {
     archiveFileName = "SimpleChatGames-${project.version}.jar"
     archiveClassifier.set('')
     relocate 'me.epic.spigotlib', 'me.epic.chatgames.spigotlib'
-    relocate 'xyz.epic.ebiclib', 'me.epic.chatgames.ebiclib'
-    relocate 'org.bstats', 'me.epic.chatgames.bstats'
+    relocate 'xyz.epic.ebiclib', 'xyz.epicebic.simplechatgames.libs.ebiclib'
+    relocate 'org.bstats', 'xyz.epicebic.simplechatgames.libs.bstats'
 }
 
 build {
@@ -58,7 +58,7 @@ tasks.register('release') {
 bukkit {
     name = 'SimpleChatGames'
     version = version
-    main = 'me.epic.chatgames.SimpleChatGames'
+    main = 'xyz.epicebic.simplechatgames.SimpleChatGames'
     apiVersion = '1.18'
     softDepend = [
             'PlaceholderAPI',
