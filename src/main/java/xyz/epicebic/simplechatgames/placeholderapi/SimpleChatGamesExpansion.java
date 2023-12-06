@@ -3,7 +3,6 @@ package xyz.epicebic.simplechatgames.placeholderapi;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import xyz.epicebic.simplechatgames.SimpleChatGames;
 import xyz.epicebic.simplechatgames.games.GameManager;
-import xyz.epicebic.simplechatgames.utils.PlayerDataUtils;
 import xyz.epicebic.simplechatgames.utils.Utils;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;

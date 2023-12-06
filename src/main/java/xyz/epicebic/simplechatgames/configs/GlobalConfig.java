@@ -6,14 +6,15 @@ import xyz.epicebic.ebiclib.config.annotation.ConfigEntry;
 public class GlobalConfig {
 
     @ConfigEntry("update-checker.enabled")
-    public static Boolean UPDATE_CHECKER_ENABLED = true;
+    public static boolean UPDATE_CHECKER_ENABLED = true;
 
     @ConfigEntry("update-checker.interval")
     @Comment("In hours")
-    public static Integer UPDATE_CHECKER_INTERVAL = 2;
+    public static int UPDATE_CHECKER_INTERVAL = 2;
 
     @ConfigEntry("debug")
-    public static Boolean DEBUG = false;
+    public static boolean DEBUG = false;
 
-
+    @ConfigEntry("leaderboard.entries-per-page")
+    public static int LEADERBOARD_ENTRIES_PER_PAGE = 10;
 }

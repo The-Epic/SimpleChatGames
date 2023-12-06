@@ -32,6 +32,7 @@ public class RewardCommand extends SimpleCommandHandler {
             sender.sendMessage("This command is for players only!");
             return;
         }
+        // TODO message config, update to new item stuff
         switch (args[0]) {
             case "set" -> {
                 switch (args[1]) {

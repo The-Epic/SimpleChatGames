@@ -3,33 +3,28 @@ package xyz.epicebic.simplechatgames;
 import lombok.SneakyThrows;
 import net.byteflux.libby.BukkitLibraryManager;
 import net.byteflux.libby.Library;
-import xyz.epicebic.betteritemconfig.ItemFactory;
 import me.epic.spigotlib.UpdateChecker;
 import me.epic.spigotlib.config.ConfigUpdater;
 import me.epic.spigotlib.formatting.Formatting;
 import me.epic.spigotlib.language.MessageConfig;
-import me.epic.spigotlib.serialisation.ItemSerializer;
 import me.epic.spigotlib.utils.FileUtils;
 import me.epic.spigotlib.utils.ServerUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.epicebic.simplechatgames.commands.CommandHandler;
 import xyz.epicebic.simplechatgames.games.GameManager;
+import xyz.epicebic.simplechatgames.managers.DataManager;
 import xyz.epicebic.simplechatgames.placeholderapi.SimpleChatGamesExpansion;
-import xyz.epicebic.simplechatgames.utils.PlayerDataUtils;
+import xyz.epicebic.simplechatgames.managers.StorageManager;
 import xyz.epicebic.simplechatgames.utils.Utils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class SimpleChatGames extends JavaPlugin {
@@ -43,14 +38,15 @@ public final class SimpleChatGames extends JavaPlugin {
     private Economy economy;
     private BukkitTask mainGameTask;
 
-
     @Override
     @SneakyThrows
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
         loadLibraries();
-        saveDefaultConfig();
+        saveDefaultConfig(); // TODO change this to load the configs
+        StorageManager.getInstance().initData();
+        DataManager.getInstance().initRunnable();
         checkForUpdates();
         loadBstats();
         reload();
@@ -58,8 +54,6 @@ public final class SimpleChatGames extends JavaPlugin {
         getCommand("simplechatgames").setExecutor(new CommandHandler(this));
         gameManager = new GameManager(this);
         gameManager.loadGames();
-        PlayerDataUtils.init(getConfig().getString("storage.type", "json")); // TODO update this
-
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             getLogger().info("Vault found, registering compatibility.");

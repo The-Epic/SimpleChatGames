@@ -1,6 +1,5 @@
 package xyz.epicebic.simplechatgames.utils;
 
-import org.bukkit.Bukkit;
 import xyz.epicebic.simplechatgames.configs.GlobalConfig;
 
 import java.util.function.Supplier;

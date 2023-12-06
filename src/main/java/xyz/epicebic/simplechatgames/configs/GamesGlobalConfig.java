@@ -9,16 +9,16 @@ public class GamesGlobalConfig {
 
     @ConfigEntry("interval")
     @Comment("In Minutes")
-    public static Integer INTERVAL = 5;
+    public static int INTERVAL = 5;
 
     @ConfigEntry("players-needed")
-    public static Integer PLAYERS_NEEDED = 2;
+    public static int PLAYERS_NEEDED = 2;
 
     @ConfigEntry("not-enough-players-message")
     public static String NOT_ENOUGH_PLAYERS_MESSAGE = "<green>Not enough players online";
 
     @ConfigEntry("sounds.enabled")
-    public static Boolean SOUNDS_ENABLED = false;
+    public static boolean SOUNDS_ENABLED = false;
 
     @ConfigEntry("sounds.game-start")
     @Comment("Valid sounds can be found on the following link: ")

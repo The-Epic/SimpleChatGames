@@ -6,9 +6,9 @@ import xyz.epicebic.ebiclib.config.annotation.ConfigEntry;
 public class AntiSpamConfig {
 
     @ConfigEntry("cooldown.enabled")
-    public static Boolean COOLDOWN_ENABLED = false;
+    public static boolean COOLDOWN_ENABLED = false;
 
     @ConfigEntry("cooldown.time")
     @Comment("In seconds")
-    public static Integer COOLDOWN_TIME = 3;
+    public static int COOLDOWN_TIME = 3;
 }

@@ -2,7 +2,6 @@ package xyz.epicebic.simplechatgames.games;
 
 import lombok.Getter;
 import xyz.epicebic.simplechatgames.games.data.GameData;
-import xyz.epicebic.simplechatgames.utils.PlayerDataUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;

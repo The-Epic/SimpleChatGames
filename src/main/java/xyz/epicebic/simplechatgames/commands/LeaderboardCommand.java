@@ -1,10 +1,12 @@
 package xyz.epicebic.simplechatgames.commands;
 
 import xyz.epicebic.simplechatgames.SimpleChatGames;
-import xyz.epicebic.simplechatgames.utils.PlayerData;
-import xyz.epicebic.simplechatgames.utils.PlayerDataUtils;
 import me.epic.spigotlib.commands.SimpleCommandHandler;
 import org.bukkit.command.CommandSender;
+import xyz.epicebic.simplechatgames.managers.DataManager;
+import xyz.epicebic.simplechatgames.managers.StorageManager;
+
+import java.util.*;
 
 public class LeaderboardCommand extends SimpleCommandHandler {
 
@@ -18,12 +20,14 @@ public class LeaderboardCommand extends SimpleCommandHandler {
     @Override
     public void handleCommand(CommandSender sender, String[] args) {
         int page = args.length == 1 ? Integer.parseInt(args[0]) : 1;
-        sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-message").replace("%number%", String.valueOf(page)));
-        int count = 10 * page;
-        for (PlayerData data : PlayerDataUtils.getTopPlayerData(count - 10 , count)) {
-            sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-line").replace("%player_name%", data.getPlayerName()).replace("%wins%", String.valueOf(data.getGamesWon())));
+        // TODO update to new config
+//        sender.sendMessage(plugin.getMessageConfig().getString("leaderboard.info-message").replace("%number%", String.valueOf(page)));
+        List<String> messages = new ArrayList<>();
+        Map<String, Integer> nameWinsMap = new HashMap<>();
+        for (UUID uuid : DataManager.getInstance().getLeaderboard(page)) {
+            nameWinsMap.put(DataManager.getInstance().getPlayerData(uuid).getName(), DataManager.getInstance().getPlayerData(uuid).getWins());
         }
-        return;
+        // TODO send message
     }
 
 }

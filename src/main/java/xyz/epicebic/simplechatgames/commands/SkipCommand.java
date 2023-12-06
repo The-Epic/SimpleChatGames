@@ -15,12 +15,9 @@ public class SkipCommand extends SimpleCommandHandler {
 
     @Override
     public void handleCommand(CommandSender sender, String[] strings) {
+        // TODO update to new config
         sender.sendMessage(plugin.getMessageConfig().getString("skip-game"));
-        try {
-            plugin.getGameManager().getActiveGame().end();
-        } catch (NullPointerException ignored) {
-
-        }
+        plugin.getGameManager().getActiveGame().end();
         plugin.getGameManager().startRandomGame();
     }
 

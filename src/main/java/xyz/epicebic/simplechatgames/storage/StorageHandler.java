@@ -1,14 +1,24 @@
 package xyz.epicebic.simplechatgames.storage;
 
-import xyz.epicebic.simplechatgames.utils.PlayerData;
-import org.bukkit.OfflinePlayer;
+
+import xyz.epicebic.simplechatgames.storage.data.PlayerData;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public interface StorageHandler {
 
-    int getPlayerData(OfflinePlayer player);
-    void incrementPlayerData(OfflinePlayer player);
-    List<PlayerData> getTopPlayerData(int start, int count);
-    PlayerData getPlayerDataAtPosition(int position);
+
+    CompletableFuture<Void> createTable();
+
+    CompletableFuture<PlayerData> loadPlayerData(UUID uuid);
+
+    CompletableFuture<Void> savePlayerData(PlayerData playerData);
+
+    CompletableFuture<Void> updatePlayerData(PlayerData playerData);
+
+    CompletableFuture<List<PlayerData>> getLeaderboard();
+
+
 }
